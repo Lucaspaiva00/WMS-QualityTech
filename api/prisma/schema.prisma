@@ -1,0 +1,17 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model material{
+  cod_material Int @id @default(autoincrement())
+  pn_material String
+  lote String
+  data_validade String
+  posicao String
+  quantidade Int
+}
