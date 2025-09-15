@@ -60,3 +60,14 @@ function saida(material) {
         event.target.closest("tr").remove();
     }
 }
+
+// SELECT PARA PUXAR A POSIÇÃO
+fetch("http://localhost:3000/posicao")
+    .then(resp => resp.json())
+    .then(resp => {
+        resp.forEach(e => {
+            posicao.innerHTML += `
+            <option value="${e.posicao}">${e.posicao}</option>
+            `
+        })
+    })

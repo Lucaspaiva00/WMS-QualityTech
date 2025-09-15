@@ -7,11 +7,37 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model material{
-  cod_material Int @id @default(autoincrement())
-  pn_material String
-  lote String
+model material {
+  cod_material  Int    @id @default(autoincrement())
+  pn_material   String
+  lote          String
   data_validade String
-  posicao String
-  quantidade Int
+  posicao       String
+  quantidade    Int
+  nf_entrada   String
+  nf_saida      String
+  observacao    String
+}
+
+model posicao {
+  cod_posicao Int    @id @default(autoincrement())
+  posicao     String
+}
+
+model cliente {
+  cod_cliente  Int        @id @default(autoincrement())
+  nome_cliente String
+  cnpj         String
+  endereco     String
+  telefone     String
+  produtos     produtos[]
+}
+
+model produtos {
+  cod_produto         Int     @id @default(autoincrement())
+  nome_produto        String
+  codigo              String
+  peso_uni            String
+  cliente_cod_cliente Int
+  cliente             cliente @relation(fields: [cliente_cod_cliente], references: [cod_cliente])
 }
