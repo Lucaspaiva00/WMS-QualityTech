@@ -63,7 +63,6 @@ fetch(uriCliente)
                     <td>${p.peso_uni}</td>
                     <td>
                         <button class="btn btn-primary" onClick="editar(${p.cod_produto})">Editar</button>
-                        <button class="btn btn-primary" onClick="excluir(${p.cod_produto})">Excluir</button>
                     </td>
                 </tr>
             `;
