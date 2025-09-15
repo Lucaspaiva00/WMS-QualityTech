@@ -8,6 +8,8 @@ caixaForm.addEventListener('submit', (e) => {
         lote: caixaForm.lote.value,
         data_validade: caixaForm.data_validade.value,
         posicao: caixaForm.posicao.value,
+        nf_entrada: caixaForm.nf_entrada.value,
+        observacao: caixaForm.observacao.value,
         quantidade: Number(caixaForm.quantidade.value)
     }
 
@@ -42,6 +44,8 @@ fetch(uri)
             <td>${e.lote}</td>
             <td>${e.data_validade}</td>
             <td>${e.posicao}</td>
+            <td>${e.nf_entrada}</td>
+            <td>${e.observacao}</td>
             <td>${e.quantidade}</td>
             <td>                
             <button type="button" title="button" class='btn btn-primary' id='editaroperacao' onClick='editaroperacao(this)'>Editar</button>

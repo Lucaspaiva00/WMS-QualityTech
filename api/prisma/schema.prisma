@@ -14,8 +14,7 @@ model material {
   data_validade String
   posicao       String
   quantidade    Int
-  nf_entrada   String
-  nf_saida      String
+  nf_entrada    String
   observacao    String
 }
 

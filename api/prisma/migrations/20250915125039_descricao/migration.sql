@@ -7,7 +7,6 @@ CREATE TABLE `material` (
     `posicao` VARCHAR(191) NOT NULL,
     `quantidade` INTEGER NOT NULL,
     `nf_entrada` VARCHAR(191) NOT NULL,
-    `nf_saida` VARCHAR(191) NOT NULL,
     `observacao` VARCHAR(191) NOT NULL,
 
     PRIMARY KEY (`cod_material`)

@@ -30,7 +30,7 @@
             <div class="sidebar-heading">
                 Páginas
             </div>
-           <li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fa fa-university" aria-hidden="true"></i>
@@ -59,7 +59,7 @@
                     </div>
                 </div>
             </li>
-             <li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwow"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fa fa-university" aria-hidden="true"></i>
@@ -92,32 +92,55 @@
                         <i class="fa fa-bars"></i>
                     </button>
                     <ul class="navbar-nav ml-auto">
+
                         <div class="topbar-divider d-none d-sm-block"></div>
+
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-900">Opções</span>
-
+                        <li class="nav-item">
+                            <a href="https://app.contaazul.com/#/ca/visao-geral" target="_blank">
+                                <img src="img/contaazul.jpeg" alt="Conta Azul" style="height:40px; margin-right:15px;">
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="userDropdown">
-
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="login.html">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Sair
-                                </a>
-                            </div>
                         </li>
+
+                        <!-- Imagem HodieBooking -->
+                        <li class="nav-item">
+                            <a href="https://www.hodiebooking.com.br/ingredion/login.php?src=ver_2&msg="
+                                target="_blank">
+                                <img src="img/hodiebooking.jpeg" alt="HodieBooking"
+                                    style="height:40px; margin-right:15px;">
+                            </a>
+                        </li>
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="mr-2 d-none d-lg-inline text-gray-900">Opções</span>
+
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                            aria-labelledby="userDropdown">
+
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="login.html">
+                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Sair
+                            </a>
+                        </div>
+                        </li>
+
                     </ul>
                 </nav>
+                <center>
+                    <h1>ORDEM DE EMBARQUE</h1>
+                </center>
+
                 <table id="tabela-saida" class="table table-dark table-hover">
                     <thead>
                         <tr>
                             <th>PN MATERIAL</th>
-                            <th>LOTE</th>
-                            <th>DATA DE VALIDADE</th>
+                            <th>LOTE (FIFO)</th>
+                            <th>DATA D VALIDADE</th>
                             <th>POSIÇÃO</th>
+                            <th>NF ENTRADA</th>
+                            <th>OBSERVAÇÃO</th>
                             <th>QUANTIDADE</th>
                             <th>STATUS</th>
                         </tr>
