@@ -139,8 +139,7 @@
 
                             <div class="card card-body">
                                 <form id="caixaForms">
-                                    <input type="text" name="nome_cliente" placeholder="Nome do cliente"
-                                        required>
+                                    <input type="text" name="nome_cliente" placeholder="Nome do cliente" required>
                                     <input type="text" name="cnpj" placeholder="CNPJ" required>
                                     <input type="text" name="endereco" placeholder="Endereço" required>
                                     <input type="text" name="telefone" placeholder="Telefone" required>
@@ -165,6 +164,38 @@
                         <tbody id="cliente"></tbody>
                     </table>
                 </div>
+                <!-- Modal de Edição de Cliente -->
+                <div class="modal fade" id="modalEditarCliente" tabindex="-1" role="dialog"
+                    aria-labelledby="modalEditarClienteLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Editar Cliente</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form id="formEditarCliente">
+                                <div class="modal-body">
+                                    <input type="text" name="nome_cliente" placeholder="Nome do cliente"
+                                        class="form-control mb-2" required>
+                                    <input type="text" name="cnpj" placeholder="CNPJ" class="form-control mb-2"
+                                        required>
+                                    <input type="text" name="endereco" placeholder="Endereço" class="form-control mb-2"
+                                        required>
+                                    <input type="text" name="telefone" placeholder="Telefone" class="form-control mb-2"
+                                        required>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

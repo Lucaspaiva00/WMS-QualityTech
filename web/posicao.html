@@ -133,7 +133,7 @@
                         <div class="container-fluid">
 
                             <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                                <h1 class="h3 mb-0 text-gray-800">Novo Cadastro</h1>
+                                <h1 class="h3 mb-0 text-gray-800">Nova Posição</h1>
                             </div>
 
 
@@ -147,15 +147,31 @@
                             <br>
                         </div>
                     </div>
-                    <table class="table table-dark table-hover">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th>POSIÇÃO</th>
-                                <th>STATUS</th>
-                            </tr>
-                        </thead>
-                        <tbody id="posicao"></tbody>
-                    </table>
+                    <div class="row" id="posicaoCards"></div>
+                    <!-- Modal de Edição -->
+                    <div class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="modalEditarLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalEditarLabel">Editar Posição</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Fechar"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="formEditar">
+                                        <input type="hidden" id="editarId">
+                                        <div class="mb-3">
+                                            <label for="editarPosicao" class="form-label">Nome da Posição</label>
+                                            <input type="text" class="form-control" id="editarPosicao" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Salvar</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>

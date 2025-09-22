@@ -1,7 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-const read = async (req, res) =>{
+const read = async (req, res) => {
     const cliente = await prisma.cliente.findMany();
     return res.json(cliente)
 }
@@ -19,15 +19,19 @@ const create = async (req, res) => {
 }
 
 const update = async (req, res) => {
-    const data = req.body
-    let cliente = await prisma.cliente.update({
-        data: data,
-        where: {
-            cod_cliente: parseInt(req.body.cod_cliente)
-        }
-    })
-    res.status(202).json(cliente).end()
-}
+    try {
+        const { cod_cliente } = req.params;
+        const data = req.body;
+        const clienteAtualizado = await prisma.cliente.update({
+            where: { cod_cliente: parseInt(cod_cliente) },
+            data
+        });
+        res.status(202).json(clienteAtualizado);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: "Erro ao atualizar cliente" });
+    }
+};
 
 const del = async (req, res) => {
     try {

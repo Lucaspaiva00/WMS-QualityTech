@@ -157,21 +157,65 @@
                             <br>
                         </div>
                     </div>
-                    <table class="table table-dark table-hover">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th>PN MATERIAL</th>
-                                <th>LOTE</th>
-                                <th>DATA D VALIDADE</th>
-                                <th>POSIÇÃO</th>
-                                <th>NF ENTRADA</th>
-                                <th>OBSERVAÇÃO</th>
-                                <th>QUANTIDADE</th>
-                                <th>STATUS</th>
-                            </tr>
-                        </thead>
-                        <tbody id="entrada"></tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered align-middle" id="materialTable">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>PN MATERIAL</th>
+                                    <th>LOTE</th>
+                                    <th>DATA DE VALIDADE</th>
+                                    <th>POSIÇÃO</th>
+                                    <th>NF ENTRADA</th>
+                                    <th>OBSERVAÇÃO</th>
+                                    <th>QUANTIDADE</th>
+                                    <th>STATUS</th>
+                                </tr>
+                            </thead>
+                            <tbody id="entrada"></tbody>
+                        </table>
+                    </div>
+
+
+
+                    <!-- Modal de Edição de Material -->
+                    <div class="modal fade" id="modalEditarMaterial" tabindex="-1" role="dialog"
+                        aria-labelledby="modalEditarMaterialLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalEditarMaterialLabel">Editar Material</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form id="formEditarMaterial">
+                                    <div class="modal-body">
+                                        <input type="text" name="pn_material" placeholder="PN do Material"
+                                            class="form-control mb-2" required>
+                                        <input type="number" name="lote" placeholder="Lote" class="form-control mb-2"
+                                            required>
+                                        <input type="date" name="data_validade" placeholder="Data de validade"
+                                            class="form-control mb-2" required>
+                                        <select name="posicao" class="form-control mb-2" required>
+                                            <option value="" disabled selected>Selecione a posição</option>
+                                        </select>
+                                        <input type="text" name="nf_entrada" placeholder="NF Entrada"
+                                            class="form-control mb-2" required>
+                                        <input type="text" name="observacao" placeholder="Observação"
+                                            class="form-control mb-2" required>
+                                        <input type="number" name="quantidade" placeholder="Quantidade"
+                                            class="form-control mb-2" required>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Cancelar</button>
+                                        <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>

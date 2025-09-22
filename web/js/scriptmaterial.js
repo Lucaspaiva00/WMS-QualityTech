@@ -1,8 +1,28 @@
 const caixaForm = document.querySelector("#caixaForms");
 const uri = "http://localhost:3000/material";
+const entrada = document.querySelector("#entrada");
+const selectPosicao = document.querySelector("#posicao");
 
-caixaForm.addEventListener('submit', (e) => {
-    e.preventDefault()
+// Função para carregar posições no select
+const carregarPosicoes = async (selectElement, valorSelecionado = "") => {
+    selectElement.innerHTML = '<option value="" disabled selected>Selecione a posição</option>';
+    const resp = await fetch("http://localhost:3000/posicao");
+    const posicoes = await resp.json();
+    posicoes.forEach(p => {
+        const option = document.createElement("option");
+        option.value = p.posicao;
+        option.text = p.posicao;
+        if (p.posicao === valorSelecionado) option.selected = true;
+        selectElement.appendChild(option);
+    });
+};
+
+// Carrega posições no formulário principal
+carregarPosicoes(selectPosicao);
+
+// Cadastro de novo material
+caixaForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
     const data = {
         pn_material: caixaForm.pn_material.value,
         lote: caixaForm.lote.value,
@@ -11,67 +31,123 @@ caixaForm.addEventListener('submit', (e) => {
         nf_entrada: caixaForm.nf_entrada.value,
         observacao: caixaForm.observacao.value,
         quantidade: Number(caixaForm.quantidade.value)
-    }
+    };
 
-    fetch(`${uri}`, {
+    const res = await fetch(uri, {
         method: "POST",
-        headers: {
-            'Content-Type': "application/json"
-        },
+        headers: { 'Content-Type': "application/json" },
         body: JSON.stringify(data)
+    });
 
-    })
-        .then(res => res.status)
-        .then(status => {
-            if (status == 201) {
-                window.location.reload()
-            } else {
-                alert("Erro ao inserir o material")
-            }
+    if (res.status === 201) {
+        carregarMateriais(); 
+        caixaForm.reset();
+    } else {
+        alert("Erro ao inserir o material");
+    }
+});
 
-        })
-    console.log(data);
+const carregarMateriais = async () => {
+    const resp = await fetch(uri);
+    const materiais = await resp.json();
+    entrada.innerHTML = "";
+    materiais.forEach(e => {
+        entrada.innerHTML += `
+<tr data-id="${e.cod_material}">
+  <td data-label="PN MATERIAL">${e.pn_material}</td>
+  <td data-label="LOTE">${e.lote}</td>
+  <td data-label="DATA DE VALIDADE">${e.data_validade}</td>
+  <td data-label="POSIÇÃO">${e.posicao}</td>
+  <td data-label="NF ENTRADA">${e.nf_entrada}</td>
+  <td data-label="OBSERVAÇÃO">${e.observacao}</td>
+  <td data-label="QUANTIDADE">${e.quantidade}</td>
+  <td data-label="STATUS">
+    <button type="button" class='btn btn-primary btn-sm' onClick='editaroperacao(this)'>Editar</button>
+    <button type="button" class='btn btn-danger btn-sm' onClick='saida(${JSON.stringify(e)})'>Saída</button>
+  </td>
+</tr>
+        `;
+    });
+};
 
-})
-
-fetch(uri)
-    .then(resp => resp.json())
-    .then(resp => {
-        let material = 0
-        resp.forEach(e => {
-            entrada.innerHTML += `
-            <td>${e.pn_material}</td>
-            <td>${e.lote}</td>
-            <td>${e.data_validade}</td>
-            <td>${e.posicao}</td>
-            <td>${e.nf_entrada}</td>
-            <td>${e.observacao}</td>
-            <td>${e.quantidade}</td>
-            <td>                
-            <button type="button" title="button" class='btn btn-primary' id='editaroperacao' onClick='editaroperacao(this)'>Editar</button>
-            <button type="button" title="button" class='btn btn-primary' id='saidamaterial' onClick='saida(${JSON.stringify(e)})'>Saída</button></td>
-            </td>
-            `
-
-        })
-    })
+carregarMateriais();
 
 function saida(material) {
     if (confirm("Confirmar a saída do material?")) {
-        let saidaList = JSON.parse(localStorage.getItem("saida")) || [];
-        saidaList.push(material);
-        localStorage.setItem("saida", JSON.stringify(saidaList));
-        event.target.closest("tr").remove();
+        const quantidadeSaida = prompt("Informe a quantidade de saída:", material.quantidade);
+        if (!quantidadeSaida) return;
+
+        const data = {
+            cod_material: material.cod_material,
+            pn_material: material.pn_material,
+            lote: material.lote,
+            data_validade: material.data_validade,
+            posicao: material.posicao,
+            nf_entrada: material.nf_entrada,
+            observacao: material.observacao,
+            quantidade: Number(quantidadeSaida)
+        };
+
+        fetch("http://localhost:3000/saida", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        })
+        .then(res => res.status)
+        .then(status => {
+            if (status == 201) {
+                alert("Saída registrada com sucesso!");
+                window.location.href = "saida.html"; // vai para a página de saídas
+            } else {
+                alert("Erro ao registrar saída");
+            }
+        });
     }
 }
 
-// SELECT PARA PUXAR A POSIÇÃO
-fetch("http://localhost:3000/posicao")
-    .then(resp => resp.json())
-    .then(resp => {
-        resp.forEach(e => {
-            posicao.innerHTML += `
-            <option value="${e.posicao}">${e.posicao}</option>
-            `
-        })
-    })
+
+function editaroperacao(botao) {
+    const linha = botao.closest("tr");
+    const cod_material = linha.getAttribute("data-id");
+    const modal = $('#modalEditarMaterial');
+    const form = document.querySelector("#formEditarMaterial");
+    const selectModalPosicao = form.querySelector("select[name='posicao']");
+
+    carregarPosicoes(selectModalPosicao, linha.children[3].innerText);
+
+    form.pn_material.value = linha.children[0].innerText;
+    form.lote.value = linha.children[1].innerText;
+    form.data_validade.value = linha.children[2].innerText;
+    form.nf_entrada.value = linha.children[4].innerText;
+    form.observacao.value = linha.children[5].innerText;
+    form.quantidade.value = linha.children[6].innerText;
+
+    modal.modal('show');
+
+    form.onsubmit = async (e) => {
+        e.preventDefault();
+        const atualizado = {
+            pn_material: form.pn_material.value,
+            lote: form.lote.value,
+            data_validade: form.data_validade.value,
+            posicao: selectModalPosicao.value,
+            nf_entrada: form.nf_entrada.value,
+            observacao: form.observacao.value,
+            quantidade: Number(form.quantidade.value)
+        };
+
+        const res = await fetch(`${uri}/${cod_material}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(atualizado)
+        });
+
+        if (res.status === 202) {
+            alert("Material atualizado!");
+            modal.modal('hide');
+            carregarMateriais(); // Atualiza tabela
+        } else {
+            alert("Erro ao atualizar o material");
+        }
+    };
+}

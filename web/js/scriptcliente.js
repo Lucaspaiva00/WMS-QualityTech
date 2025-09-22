@@ -1,51 +1,107 @@
 const caixaForm = document.querySelector("#caixaForms");
 const uri = "http://localhost:3000/cliente";
+const clienteTbody = document.querySelector("#cliente");
 
-caixaForm.addEventListener('submit', (e) => {
-    e.preventDefault()
+// ===== CADASTRAR CLIENTE =====
+caixaForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
     const data = {
         nome_cliente: caixaForm.nome_cliente.value,
         cnpj: caixaForm.cnpj.value,
         endereco: caixaForm.endereco.value,
         telefone: caixaForm.telefone.value
+    };
+
+    try {
+        const res = await fetch(uri, {
+            method: "POST",
+            headers: { 'Content-Type': "application/json" },
+            body: JSON.stringify(data)
+        });
+
+        if (res.status === 201) {
+            caixaForm.reset();
+            carregarClientes();
+        } else {
+            alert("Erro ao cadastrar cliente");
+        }
+    } catch (error) {
+        console.error(error);
+        alert("Erro ao conectar com o servidor");
     }
+});
 
-    fetch(`${uri}`, {
-        method: "POST",
-        headers: {
-            'Content-Type': "application/json"
-        },
-        body: JSON.stringify(data)
+// ===== CARREGAR CLIENTES =====
+const carregarClientes = async () => {
+    clienteTbody.innerHTML = "";
+    try {
+        const resp = await fetch(uri);
+        const clientes = await resp.json();
 
-    })
-        .then(res => res.status)
-        .then(status => {
-            if (status == 201) {
-                window.location.reload()
+        clientes.forEach(e => {
+            clienteTbody.innerHTML += `
+            <tr data-id="${e.cod_cliente}">
+                <td>${e.nome_cliente}</td>
+                <td>${e.cnpj}</td>
+                <td>${e.endereco}</td>
+                <td>${e.telefone}</td>
+                <td>
+                    <button type="button" class='btn btn-primary btn-sm' onClick='editaroperacao(this)'>Editar</button>
+                </td>
+            </tr>
+            `;
+        });
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+// Chama ao carregar a página
+carregarClientes();
+
+// ===== EDITAR CLIENTE COM MODAL =====
+function editaroperacao(botao) {
+    const linha = botao.closest("tr");
+    const cod_cliente = linha.getAttribute("data-id");
+
+    const modal = $('#modalEditarCliente');
+    const form = document.querySelector("#formEditarCliente");
+
+    // Preenche o modal com os valores atuais
+    form.nome_cliente.value = linha.children[0].innerText;
+    form.cnpj.value = linha.children[1].innerText;
+    form.endereco.value = linha.children[2].innerText;
+    form.telefone.value = linha.children[3].innerText;
+
+    modal.modal('show');
+
+    form.onsubmit = async (e) => {
+        e.preventDefault();
+        const atualizado = {
+            cod_cliente: parseInt(cod_cliente),
+            nome_cliente: form.nome_cliente.value,
+            cnpj: form.cnpj.value,
+            endereco: form.endereco.value,
+            telefone: form.telefone.value
+        };
+
+        try {
+            const res = await fetch(`${uri}/${cod_cliente}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(atualizado)
+            });
+
+            if (res.status === 202) {
+                alert("Cliente atualizado com sucesso!");
+                modal.modal('hide');
+                carregarClientes();
             } else {
-                alert("Erro ao inserir o material")
+                alert("Erro ao atualizar cliente");
             }
-
-        })
-    console.log(data);
-
-})
-
-fetch(uri)
-    .then(resp => resp.json())
-    .then(resp => {
-        resp.forEach(e => {
-            cliente.innerHTML += `
-            <td>${e.nome_cliente}</td>
-            <td>${e.cnpj}</td>
-            <td>${e.endereco}</td>
-            <td>${e.telefone}</td>
-            <td>                
-            <button type="button" title="button" class='btn btn-primary' id='editaroperacao' onClick='editaroperacao(this)'>Editar</button>
-            </td>
-            `
-
-        })
-    })
-
-
+        } catch (error) {
+            console.error(error);
+            alert("Erro ao conectar com o servidor");
+        }
+    };
+}

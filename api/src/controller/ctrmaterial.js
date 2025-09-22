@@ -22,15 +22,22 @@ const create = async (req, res) => {
 }
 
 const update = async (req, res) => {
-    const data = req.body
-    let material = await prisma.material.update({
-        data: data,
-        where: {
-            id: parseInt(req.body.id)
-        }
-    })
-    res.status(202).json(material).end()
-}
+    try {
+        const { cod_material } = req.params;
+        const data = req.body;
+
+        const material = await prisma.material.update({
+            where: { cod_material: parseInt(cod_material) },
+            data
+        });
+
+        res.status(202).json(material).end();
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({ error: "Erro ao atualizar material" }).end();
+    }
+};
+
 
 const del = async (req, res) => {
     let material = await prisma.material.delete({

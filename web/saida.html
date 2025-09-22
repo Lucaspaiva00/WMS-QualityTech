@@ -143,10 +143,39 @@
                             <th>OBSERVAÇÃO</th>
                             <th>QUANTIDADE</th>
                             <th>STATUS</th>
+                            <th>AÇÕES</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
                 </table>
+                <div class="modal fade" id="modalEditarSaida" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <form id="formEditarSaida">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Editar Saída</h5>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="text" name="pn_material" placeholder="PN Material" required>
+                                    <input type="text" name="lote" placeholder="Lote" required>
+                                    <input type="date" name="data_validade" placeholder="Data Validade" required>
+                                    <input type="text" name="posicao" placeholder="Posição" required>
+                                    <input type="text" name="nf_entrada" placeholder="NF Entrada" required>
+                                    <input type="text" name="observacao" placeholder="Observação">
+                                    <input type="number" name="quantidade" placeholder="Quantidade" required>
+                                    <input type="text" name="status" placeholder="Status" required>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Salvar</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-dismiss="modal">Cancelar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
             </div>
             <br>
         </div>

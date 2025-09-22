@@ -8,7 +8,7 @@ datasource db {
 }
 
 model material {
-  cod_material  Int    @id @default(autoincrement())
+  cod_material  Int     @id @default(autoincrement())
   pn_material   String
   lote          String
   data_validade String
@@ -16,6 +16,21 @@ model material {
   quantidade    Int
   nf_entrada    String
   observacao    String
+  Saida         saida[]
+}
+
+model saida {
+  cod_saida     Int      @id @default(autoincrement())
+  cod_material  Int
+  pn_material   String
+  lote          String
+  data_validade String
+  posicao       String
+  nf_entrada    String
+  observacao    String?
+  quantidade    Int
+  status        String   @default("pendente") // pendente ou baixado
+  material      material @relation(fields: [cod_material], references: [cod_material])
 }
 
 model posicao {

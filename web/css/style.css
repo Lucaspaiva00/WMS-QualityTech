@@ -1,108 +1,174 @@
+/* ==========================
+   Reset e Global
+========================== */
 * {
     margin: 0;
-    position: 0;
-}
-
-/* #chartDiv {
-    width: 100%;
-    height: auto;
-    margin: auto;
-    opacity: 1.0;
-} */
-
-#caixaForm {
-    height: 300px;
-    width: 400px;
-    padding: 20px 0px 50px 0px;
-}
-
-#caixaForm input {
-    width: 300px;
-    padding: 8px;
-    margin-top: 5px;
-}
-
-
-#caixaForms {
-    width: 50%;
-    padding: 20px 0px 50px 0px;
-    padding: 10px;
-}
-
-#caixaForms input {
-    width: 300px;
-    padding: 8px;
-    margin-top: 5px;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 body {
-    background: rgb(255, 255, 255);
+    background: #fff;
+    color: #333;
 }
 
+/* ==========================
+   Header
+========================== */
 header {
     width: 100%;
     background: black;
-
+    padding: 10px 0;
 }
 
 .container_header {
     display: flex;
     align-items: center;
-    justify-content: center;
-}
-
-.div_logo {
-    width: 33%;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
 }
 
 .div_logo img {
     width: 120px;
 }
 
-.div_nav {
-    width: 33%;
-}
-
 .div_nav a {
     text-decoration: none;
     color: white;
-    margin: 10px;
+    margin: 0 10px;
     font-size: 18px;
-    font-family: 'Courier New', Courier, monospace;
 }
 
+/* ==========================
+   Container Geral
+========================== */
 .container {
     width: 100%;
-    margin-top: 10%;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    margin-top: 20px;
 }
 
+/* ==========================
+   Formulário
+========================== */
 .container_formulario {
-    width: 300px;
-    border: 1px solid white;
-    padding: 25px;
+    width: 95%;
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
     border-radius: 15px;
+    background: #f7f7f7;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-.container_formulario input {
+#caixaForms {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#caixaForms input,
+#caixaForms select,
+#caixaForms button {
+    width: 100%;
     padding: 10px;
-    margin: 5px;
-    width: 250px;
-    border-radius: 15px;
-    border: 1px solid white;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
 }
 
-#btn_login {
+#caixaForms button {
     background: black;
     color: white;
+    cursor: pointer;
 }
 
-.div_img img {
-    width: 50px;
+/* ==========================
+   Tabela
+========================== */
+.table-responsive {
+    width: 95%;
+    margin: 20px auto;
+    overflow-x: auto;
 }
 
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #2c2c2c;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table th {
+    background: #1e1e1e;
+    color: #fff;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 14px;
+    padding: 10px;
+}
+
+.table td {
+    background: #2c2c2c;
+    color: #ddd;
+    font-size: 14px;
+    padding: 10px;
+}
+
+.table td button {
+    margin: 2px;
+    padding: 5px 10px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+/* ==========================
+   Tabela Responsiva Mobile
+========================== */
+@media (max-width: 768px) {
+    .table thead {
+        display: none;
+    }
+
+    .table tr {
+        display: block;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 10px;
+        background: #fff;
+    }
+
+    .table td {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 10px;
+        border-bottom: 1px solid #eee;
+        color: white;
+    }
+
+    .table td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        flex: 1 0 40%;
+    }
+
+    .table td button {
+        width: 48%;
+        margin-top: 5px;
+    }
+}
+
+/* ==========================
+   Outros ajustes
+========================== */
 .div_img {
     display: flex;
     align-items: center;
@@ -110,6 +176,11 @@ header {
     padding: 10px;
 }
 
+.div_img img {
+    width: 50px;
+}
+
 #legend {
     font-size: 26px;
+    margin-bottom: 15px;
 }
