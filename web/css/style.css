@@ -8,6 +8,14 @@
     font-family: 'Courier New', Courier, monospace;
 }
 
+.logo-img {
+  height: 50px;
+  object-fit: contain;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 10px;
+}
+
 body {
     background: #fff;
     color: #333;

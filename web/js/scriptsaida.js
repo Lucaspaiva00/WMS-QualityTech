@@ -3,13 +3,13 @@ const uri = "http://localhost:3000/saida";
 window.addEventListener("DOMContentLoaded", () => {
     const tabelaSaida = document.querySelector("#tabela-saida tbody");
 
-    // Limpa a tabela
-    tabelaSaida.innerHTML = "";
+    // Função para carregar os dados da tabela
+    async function carregarSaidas() {
+        tabelaSaida.innerHTML = "";
+        try {
+            const res = await fetch(uri);
+            const saidas = await res.json();
 
-    // Busca todas as saídas
-    fetch(uri)
-        .then(res => res.json())
-        .then(saidas => {
             saidas.forEach(e => {
                 const tr = document.createElement("tr");
                 tr.setAttribute("data-id", e.cod_saida);
@@ -29,7 +29,16 @@ window.addEventListener("DOMContentLoaded", () => {
                 `;
                 tabelaSaida.appendChild(tr);
             });
-        });
+
+            // Inicializa ordenação
+            ordenarTabela("tabela-saida");
+        } catch (err) {
+            console.error(err);
+            alert("Erro ao carregar as saídas");
+        }
+    }
+
+    carregarSaidas();
 });
 
 // Função para dar baixa
@@ -46,14 +55,12 @@ function darBaixa(cod_saida) {
 
 // Função para abrir modal e editar saída
 function editarSaida(cod_saida) {
-    // Pega a saída do backend
     fetch(`${uri}/${cod_saida}`)
         .then(res => {
             if (!res.ok) throw new Error("Saída não encontrada");
             return res.json();
         })
         .then(saida => {
-            // Abre modal (assumindo que você já tem um modal HTML)
             const modal = $('#modalEditarSaida');
             const form = document.querySelector("#formEditarSaida");
 
@@ -66,9 +73,6 @@ function editarSaida(cod_saida) {
             form.quantidade.value = saida.quantidade;
 
             modal.modal('show');
-
-            // Remove eventListener anterior para não duplicar
-            form.onsubmit = null;
 
             form.onsubmit = function(e) {
                 e.preventDefault();
@@ -87,20 +91,61 @@ function editarSaida(cod_saida) {
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(atualizado)
                 })
-                    .then(res => res.status)
-                    .then(status => {
-                        if (status === 202) {
-                            alert("Saída atualizada!");
-                            modal.modal('hide');
-                            window.location.reload();
-                        } else {
-                            alert("Erro ao atualizar a saída");
-                        }
-                    });
+                .then(res => res.status)
+                .then(status => {
+                    if (status === 202) {
+                        alert("Saída atualizada!");
+                        modal.modal('hide');
+                        window.location.reload();
+                    } else {
+                        alert("Erro ao atualizar a saída");
+                    }
+                });
             };
         })
         .catch(err => {
-            console.log(err);
+            console.error(err);
             alert("Erro ao carregar os dados da saída");
         });
+}
+
+// Função de ordenação clicando no cabeçalho
+function ordenarTabela(tabelaId) {
+    const tabela = document.querySelector(`#${tabelaId}`);
+    const headers = tabela.querySelectorAll("th");
+    let ordemAtual = {};
+
+    headers.forEach((header, index) => {
+        if (header.innerText === "AÇÕES") return; // Ignora coluna de ações
+        header.style.cursor = "pointer";
+        header.onclick = () => {
+            const tbody = tabela.querySelector("tbody");
+            const linhas = Array.from(tbody.querySelectorAll("tr"));
+            const campoIndex = index;
+
+            ordemAtual[index] = ordemAtual[index] === "asc" ? "desc" : "asc";
+
+            linhas.sort((a, b) => {
+                let valA = a.children[campoIndex].innerText;
+                let valB = b.children[campoIndex].innerText;
+
+                // Converter números
+                if (!isNaN(Number(valA)) && !isNaN(Number(valB))) {
+                    valA = Number(valA);
+                    valB = Number(valB);
+                }
+                // Converter datas
+                else if (Date.parse(valA) && Date.parse(valB)) {
+                    valA = new Date(valA);
+                    valB = new Date(valB);
+                }
+
+                if (valA > valB) return ordemAtual[index] === "asc" ? 1 : -1;
+                if (valA < valB) return ordemAtual[index] === "asc" ? -1 : 1;
+                return 0;
+            });
+
+            linhas.forEach(linha => tbody.appendChild(linha));
+        };
+    });
 }
