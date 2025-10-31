@@ -141,3 +141,22 @@ async function editaroperacao(botao) {
     }
   };
 }
+
+// Adiciona ordenação ao clicar nos cabeçalhos
+document.querySelectorAll("#tabela-materiais th").forEach(th => {
+  th.addEventListener("click", () => {
+    const tabela = th.closest("table");
+    const tbody = tabela.querySelector("tbody");
+    const index = Array.from(th.parentNode.children).indexOf(th);
+    const asc = th.classList.toggle("asc");
+
+    Array.from(tbody.querySelectorAll("tr"))
+      .sort((a, b) => {
+        const v1 = a.children[index].innerText.trim().toLowerCase();
+        const v2 = b.children[index].innerText.trim().toLowerCase();
+        return asc ? v1.localeCompare(v2) : v2.localeCompare(v1);
+      })
+      .forEach(tr => tbody.appendChild(tr));
+  });
+});
+
