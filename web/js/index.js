@@ -1,13 +1,21 @@
-const uri = "http://localhost:3000";
-const material = document.querySelector("#material");
+const base = "http://localhost:3000";
 
+async function carregarIndicadores() {
+    try {
+        const [materiais, saidas, clientes, minutas] = await Promise.all([
+            fetch(`${base}/material`).then(r => r.json()),
+            fetch(`${base}/saida`).then(r => r.json()),
+            fetch(`${base}/cliente`).then(r => r.json()),
+            fetch(`${base}/minuta`).then(r => r.json())
+        ]);
 
-fetch(`${uri}/material`)
-    .then(resp => resp.json())
-    .then(resp => {
-        // quantidade de registros (cada item no array é um material)
-        const quantidadeMateriais = resp.length;
-        material.innerHTML = quantidadeMateriais;
-        console.log("Quantidade de materiais:", quantidadeMateriais);
-    })
-    .catch(err => console.error("Erro ao buscar materiais:", err));
+        document.getElementById("material").textContent = materiais.length;
+        document.getElementById("saida").textContent = saidas.length;
+        document.getElementById("clientes").textContent = clientes.length;
+        document.getElementById("minutas").textContent = minutas.length;
+    } catch (error) {
+        console.error("Erro ao carregar indicadores:", error);
+    }
+}
+
+carregarIndicadores();

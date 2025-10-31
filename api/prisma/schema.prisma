@@ -55,3 +55,17 @@ model produtos {
   cliente_cod_cliente Int
   cliente             cliente @relation(fields: [cliente_cod_cliente], references: [cod_cliente])
 }
+
+model Minuta {
+  id               Int      @id @default(autoincrement())
+  cct              String
+  nCT              String
+  dhEmi            DateTime
+  cMunIni          String
+  cMunFim          String
+  remetenteCNPJ    String
+  destinatarioCNPJ String
+  valorPrestacao   Float
+  valorCarga       Float
+  dhCriacao        DateTime @default(now())
+}

@@ -1,0 +1,46 @@
+
+<cteProc xmlns="http://www.portalfiscal.inf.br/cte" versao="3.00">
+  <CTe>
+    <infCte Id="CTe445" versao="3.00">
+      <ide>
+        <cUF>35</cUF>
+        <cCT>88888</cCT>
+        <CFOP>5932</CFOP>
+        <natOp>PREST. DE SERVIÇO</natOp>
+        <mod>57</mod>
+        <serie>3453453</serie>
+        <nCT>445</nCT>
+        <dhEmi>5656-06-05T08:06:00.000Z</dhEmi>
+        <tpImp>1</tpImp>
+        <tpEmis>1</tpEmis>
+        <tpAmb>2</tpAmb>
+        <tpCTe>0</tpCTe>
+        <procEmi>0</procEmi>
+        <verProc>1.7.2</verProc>
+        <cMunIni>56</cMunIni>
+        <cMunFim>56</cMunFim>
+      </ide>
+      <emit>
+        <CNPJ>61575429800175</CNPJ>
+        <xNome>GAIPEX ARMAZEN LOGISTICA E TRANSPORTES LTDA</xNome>
+      </emit>
+      <rem>
+        <CNPJ>56</CNPJ>
+        <xNome>GAIPEX ARMAZEN LOGISTICA E TRANSPORTES LTDA</xNome>
+      </rem>
+      <dest>
+        <CNPJ>56</CNPJ>
+        <xNome>DESTINATÁRIO TESTE</xNome>
+      </dest>
+      <vPrest>
+        <vTPrest>56.00</vTPrest>
+      </vPrest>
+      <infCTeNorm>
+        <infCarga>
+          <vCarga>56.00</vCarga>
+        </infCarga>
+      </infCTeNorm>
+    </infCte>
+  </CTe>
+  <obs>Este é um XML fictício gerado com os dados do usuário, apenas para homologação com o sistema AverbePorto.</obs>
+</cteProc>

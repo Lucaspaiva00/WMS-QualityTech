@@ -6,8 +6,9 @@ const posicao = require('./controller/ctrposicao')
 const cliente = require('./controller/ctrcliente')
 const produtos = require('./controller/ctrproduto')
 const saida = require('./controller/ctrsaida');
+const minuta = require('./controller/ctminuta');
 
-routes.get('/', (req, res) =>{
+routes.get('/', (req, res) => {
     return res.json("Api WMS está funcionando corretamente")
 })
 
@@ -32,13 +33,16 @@ routes.post('/produtos', produtos.create)
 routes.put('/produtos/:cod_produto', produtos.update);
 routes.delete('/produtos/:cod_produto', produtos.del)
 
-routes.get('/saida', saida.read);                     
-routes.get('/saida/:cod_saida', saida.readOne);      
-routes.post('/saida', saida.create);                
-routes.put('/saida/:cod_saida', saida.update);      
-routes.put('/saida/baixa/:cod_saida', saida.baixa); 
+routes.get('/saida', saida.read);
+routes.get('/saida/:cod_saida', saida.readOne);
+routes.post('/saida', saida.create);
+routes.put('/saida/:cod_saida', saida.update);
+routes.put('/saida/baixa/:cod_saida', saida.baixa);
 
-
+routes.post("/minuta", minuta.criarMinuta);
+routes.get("/minuta", minuta.listarMinutas);
+routes.delete("/minuta/:id", minuta.excluirMinuta);
+routes.get("/minuta/gerarxml/:id", minuta.gerarXML);
 
 
 module.exports = routes

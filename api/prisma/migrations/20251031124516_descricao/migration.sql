@@ -13,6 +13,22 @@ CREATE TABLE `material` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
+CREATE TABLE `saida` (
+    `cod_saida` INTEGER NOT NULL AUTO_INCREMENT,
+    `cod_material` INTEGER NOT NULL,
+    `pn_material` VARCHAR(191) NOT NULL,
+    `lote` VARCHAR(191) NOT NULL,
+    `data_validade` VARCHAR(191) NOT NULL,
+    `posicao` VARCHAR(191) NOT NULL,
+    `nf_entrada` VARCHAR(191) NOT NULL,
+    `observacao` VARCHAR(191) NULL,
+    `quantidade` INTEGER NOT NULL,
+    `status` VARCHAR(191) NOT NULL DEFAULT 'pendente',
+
+    PRIMARY KEY (`cod_saida`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
 CREATE TABLE `posicao` (
     `cod_posicao` INTEGER NOT NULL AUTO_INCREMENT,
     `posicao` VARCHAR(191) NOT NULL,
@@ -41,6 +57,27 @@ CREATE TABLE `produtos` (
 
     PRIMARY KEY (`cod_produto`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `Minuta` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `cct` VARCHAR(191) NOT NULL,
+    `cfop` VARCHAR(191) NOT NULL,
+    `nCT` VARCHAR(191) NOT NULL,
+    `dhEmi` DATETIME(3) NOT NULL,
+    `cMunIni` VARCHAR(191) NOT NULL,
+    `cMunFim` VARCHAR(191) NOT NULL,
+    `remetenteCNPJ` VARCHAR(191) NOT NULL,
+    `destinatarioCNPJ` VARCHAR(191) NOT NULL,
+    `valorPrestacao` DOUBLE NOT NULL,
+    `valorCarga` DOUBLE NOT NULL,
+    `dhCriacao` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- AddForeignKey
+ALTER TABLE `saida` ADD CONSTRAINT `saida_cod_material_fkey` FOREIGN KEY (`cod_material`) REFERENCES `material`(`cod_material`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `produtos` ADD CONSTRAINT `produtos_cliente_cod_cliente_fkey` FOREIGN KEY (`cliente_cod_cliente`) REFERENCES `cliente`(`cod_cliente`) ON DELETE RESTRICT ON UPDATE CASCADE;

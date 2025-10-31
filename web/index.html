@@ -10,99 +10,134 @@
 
     <link href="css2/sb-admin-2.min.css" rel="stylesheet">
 </head>
+<style>
+    .sidebar-dark .nav-item .nav-link span {
+        color: #fff;
+        font-weight: 500;
+    }
+
+    .sidebar-dark .nav-item .nav-link:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-item.active .nav-link {
+        background-color: #4e73df !important;
+        border-radius: 0.35rem;
+    }
+
+    .card i {
+        opacity: 0.4;
+        transition: opacity 0.2s ease;
+    }
+
+    .card:hover i {
+        opacity: 0.9;
+    }
+</style>
 
 <body>
     <div id="wrapper">
+        <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
 
-                <div class="sidebar-brand-text mx-3"><img src="img/logooficial.png"
-                        style="  height: 50px; object-fit: contain; display: inline-block; vertical-align: middle; margin-left: 10px;"
-                        alt=""></div>
+            <!-- Marca -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <div class="sidebar-brand-text mx-3">
+                    <img src="img/logooficial.png"
+                        style="height: 50px; object-fit: contain; display: inline-block; vertical-align: middle;"
+                        alt="Logo">
+                </div>
             </a>
+
             <hr class="sidebar-divider my-0">
+
+            <!-- Dashboard -->
             <li class="nav-item active">
                 <a class="nav-link" href="index.html">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
-            </li>
-            <hr class="sidebar-divider">
-            <div class="sidebar-heading">
-                Páginas
-            </div>
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fa fa-university" aria-hidden="true"></i>
-                    <span style="color: white;">Entrada de Material</span>
+                    <span>Dashboard</span>
                 </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Páginas similares</h6>
-                        <a class="collapse-item" href="material.html">Cadastre uma entrada</a>
-                        <a class="collapse-item" href="saida.html">Ordem de Embarque</a>
-                        <a class="collapse-item" href="posicao.html">Posição</a>
-                    </div>
-                </div>
             </li>
 
+            <hr class="sidebar-divider">
+            <div class="sidebar-heading">Gestão</div>
+
+            <!-- Entrada de Material -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwos"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fa fa-university" aria-hidden="true"></i>
-                    <span style="color: white;">Cadastro de produtos</span>
+                <a class="nav-link" href="material.html">
+                    <i class="fas fa-boxes"></i>
+                    <span>Entrada de Material</span>
                 </a>
-                <div id="collapseTwos" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Páginas similares</h6>
-                        <a class="collapse-item" href="produto.html">Cadastre um produto</a>
-                    </div>
-                </div>
             </li>
+
+            <!-- Ordem de Embarque -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwow"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fa fa-university" aria-hidden="true"></i>
-                    <span style="color: white;">Cadastro de clientes</span>
+                <a class="nav-link" href="saida.html">
+                    <i class="fas fa-truck-loading"></i>
+                    <span>Ordem de Embarque</span>
                 </a>
-                <div id="collapseTwow" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Páginas similares</h6>
-                        <a class="collapse-item" href="cliente.html">Cadastre um Cliente</a>
-                    </div>
-                </div>
             </li>
+
+            <!-- Posições -->
+            <li class="nav-item">
+                <a class="nav-link" href="posicao.html">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <span>Posições</span>
+                </a>
+            </li>
+
+            <hr class="sidebar-divider">
+            <div class="sidebar-heading">Cadastros</div>
+
+            <!-- Produtos -->
+            <li class="nav-item">
+                <a class="nav-link" href="produto.html">
+                    <i class="fas fa-cube"></i>
+                    <span>Produtos</span>
+                </a>
+            </li>
+
+            <!-- Clientes -->
+            <li class="nav-item">
+                <a class="nav-link" href="cliente.html">
+                    <i class="fas fa-user-tie"></i>
+                    <span>Clientes</span>
+                </a>
+            </li>
+
+            <!-- Minutas -->
+            <li class="nav-item">
+                <a class="nav-link" href="minuta.html">
+                    <i class="fas fa-file-invoice"></i>
+                    <span>Minutas</span>
+                </a>
+            </li>
+
             <hr class="sidebar-divider d-none d-md-block">
+
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
-
         </ul>
+        <!-- Fim Sidebar -->
+
+        <!-- Conteúdo principal -->
         <div id="content-wrapper" class="d-flex flex-column">
             <div id="content">
+                <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-                    <div class="input-group">
-                        <div class="input-group-append" hidden>
-                            <button class="btn btn-primary" type="button">
-                                <i class="fas fa-search fa-sm"></i>
-                            </button>
-                        </div>
-                    </div>
+
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
+
                     <ul class="navbar-nav ml-auto">
-
-                        <div class="topbar-divider d-none d-sm-block"></div>
-
-                        <li class="nav-item dropdown no-arrow">
+                        <!-- Integrações -->
                         <li class="nav-item">
                             <a href="https://app.contaazul.com/#/ca/visao-geral" target="_blank">
                                 <img src="img/contaazul.jpeg" alt="Conta Azul" style="height:40px; margin-right:15px;">
                             </a>
                         </li>
-
-                        <!-- Imagem HodieBooking -->
                         <li class="nav-item">
                             <a href="https://www.hodiebooking.com.br/ingredion/login.php?src=ver_2&msg="
                                 target="_blank">
@@ -110,104 +145,87 @@
                                     style="height:40px; margin-right:15px;">
                             </a>
                         </li>
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="mr-2 d-none d-lg-inline text-gray-900">Opções</span>
 
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                            aria-labelledby="userDropdown">
-
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="login.html">
-                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Sair
+                        <!-- Menu Usuário -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-900">Opções</span>
                             </a>
-                        </div>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="login.html">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Sair
+                                </a>
+                            </div>
                         </li>
-
                     </ul>
-
                 </nav>
 
+                <!-- Conteúdo principal -->
                 <div class="container-fluid">
+                    <h1 class="h4 mb-4 text-gray-800 font-weight-bold">Visão Geral</h1>
+
                     <div class="row">
+
+                        <!-- Materiais -->
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Quantidade de Materiais</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="material">
-                                            </div>
-                                        </div>
-
+                                <div class="card-body d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                            Materiais Cadastrados</div>
+                                        <div id="material" class="h5 mb-0 font-weight-bold text-gray-800">0</div>
                                     </div>
+                                    <i class="fas fa-box fa-2x text-gray-300"></i>
                                 </div>
                             </div>
                         </div>
 
+                        <!-- Embarques -->
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Ordem de Embarque</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="saida"></div>
-                                        </div>
-
+                                <div class="card-body d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Ordens de
+                                            Embarque</div>
+                                        <div id="saida" class="h5 mb-0 font-weight-bold text-gray-800">0</div>
                                     </div>
+                                    <i class="fas fa-truck fa-2x text-gray-300"></i>
                                 </div>
                             </div>
                         </div>
 
+                        <!-- Clientes -->
                         <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Status do armazém</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="armazen"></div>
-                                        </div>
-
+                            <div class="card border-left-warning shadow h-100 py-2">
+                                <div class="card-body d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Clientes
+                                            Ativos</div>
+                                        <div id="clientes" class="h5 mb-0 font-weight-bold text-gray-800">0</div>
                                     </div>
+                                    <i class="fas fa-user-friends fa-2x text-gray-300"></i>
                                 </div>
                             </div>
                         </div>
 
+                        <!-- Minutas -->
                         <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Carregamentos dia</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="saida"></div>
-                                        </div>
-
+                            <div class="card border-left-info shadow h-100 py-2">
+                                <div class="card-body d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Minutas
+                                            Geradas</div>
+                                        <div id="minutas" class="h5 mb-0 font-weight-bold text-gray-800">0</div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                descarregamentos dia</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="saida"></div>
-                                        </div>
-
-                                    </div>
+                                    <i class="fas fa-file-alt fa-2x text-gray-300"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
