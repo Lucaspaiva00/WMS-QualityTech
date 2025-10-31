@@ -87,7 +87,7 @@ function saida(material) {
     }).then(res => {
       if (res.status === 201) {
         alert("Saída registrada com sucesso!");
-        window.location.href = "saida.html";
+        window.location.href = "ordemembarque.html";
       } else {
         alert("Erro ao registrar saída.");
       }
