@@ -1,187 +1,195 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel Central</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link href="vendor2/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <title>📍 Cadastro de Posições - Paiva Tech</title>
 
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="vendor2/fontawesome-free/css/all.min.css" rel="stylesheet">
     <link href="css2/sb-admin-2.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: "Poppins", sans-serif;
+            background-color: #f4f5fa;
+        }
+
+        .bg-gradient-dark {
+            background: linear-gradient(180deg, #0d1117 0%, #1f2937 100%);
+        }
+
+        .sidebar-dark .nav-item .nav-link span {
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .sidebar-dark .nav-item .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-item.active .nav-link {
+            background-color: #e50914 !important;
+            border-radius: 8px;
+        }
+
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            background: #fff;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        h1 {
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .btn-primary {
+            background-color: #e50914;
+            border: none;
+            font-weight: 600;
+        }
+
+        .btn-primary:hover {
+            background-color: #b20710;
+        }
+
+        .btn-success {
+            background-color: #16a34a;
+            border: none;
+            font-weight: 600;
+        }
+
+        .btn-success:hover {
+            background-color: #15803d;
+        }
+    </style>
 </head>
 
 <body>
     <div id="wrapper">
+        <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-
-                <div class="sidebar-brand-text mx-3"><img src="img/logooficial.png"
-                        style="  height: 50px; object-fit: contain; display: inline-block; vertical-align: middle; margin-left: 10px;"
-                        alt=""></div>
+                <div class="sidebar-brand-text mx-3">
+                    <img src="img/logooficial.png" style="height: 55px; object-fit: contain;" alt="Logo Paiva Tech">
+                </div>
             </a>
+
             <hr class="sidebar-divider my-0">
-            <li class="nav-item active">
-                <a class="nav-link" href="index.html">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
-            </li>
+            <li class="nav-item"><a class="nav-link" href="index.html"><i
+                        class="fas fa-fw fa-tachometer-alt"></i><span>Dashboard</span></a></li>
             <hr class="sidebar-divider">
-            <div class="sidebar-heading">
-                Páginas
-            </div>
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fa fa-university" aria-hidden="true"></i>
-                    <span style="color: white;">Entrada de Material</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Páginas similares</h6>
-                        <a class="collapse-item" href="material.html">Cadastre uma entrada</a>
-                        <a class="collapse-item" href="saida.html">Ordem de Embarque</a>
-                        <a class="collapse-item" href="posicao.html">Posição</a>
-                    </div>
-                </div>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwos"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fa fa-university" aria-hidden="true"></i>
-                    <span style="color: white;">Cadastro de produtos</span>
-                </a>
-                <div id="collapseTwos" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Páginas similares</h6>
-                        <a class="collapse-item" href="produto.html">Cadastre um produto</a>
-                    </div>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwow"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fa fa-university" aria-hidden="true"></i>
-                    <span style="color: white;">Cadastro de clientes</span>
-                </a>
-                <div id="collapseTwow" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Páginas similares</h6>
-                        <a class="collapse-item" href="cliente.html">Cadastre um Cliente</a>
-                    </div>
-                </div>
-            </li>
+            <div class="sidebar-heading">Gestão</div>
+            <li class="nav-item"><a class="nav-link" href="material.html"><i class="fas fa-boxes"></i><span>Entrada de
+                        Material</span></a></li>
+            <li class="nav-item"><a class="nav-link" href="saida.html"><i class="fas fa-truck-loading"></i><span>Ordem
+                        de Embarque</span></a></li>
+            <li class="nav-item active"><a class="nav-link" href="posicao.html"><i
+                        class="fas fa-map-marked-alt"></i><span>Posições</span></a></li>
+            <hr class="sidebar-divider">
+            <div class="sidebar-heading">Cadastros</div>
+            <li class="nav-item"><a class="nav-link" href="produto.html"><i
+                        class="fas fa-cube"></i><span>Produtos</span></a></li>
+            <li class="nav-item"><a class="nav-link" href="cliente.html"><i
+                        class="fas fa-user-tie"></i><span>Clientes</span></a></li>
+            <li class="nav-item"><a class="nav-link" href="minuta.html"><i
+                        class="fas fa-file-invoice"></i><span>Minutas</span></a></li>
             <hr class="sidebar-divider d-none d-md-block">
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
-
+            <div class="text-center d-none d-md-inline"><button class="rounded-circle border-0"
+                    id="sidebarToggle"></button></div>
         </ul>
+
+        <!-- Conteúdo -->
         <div id="content-wrapper" class="d-flex flex-column">
             <div id="content">
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-                    <div class="input-group">
-                        <div class="input-group-append" hidden>
-                            <button class="btn btn-primary" type="button">
-                                <i class="fas fa-search fa-sm"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button>
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow-sm">
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3"><i
+                            class="fa fa-bars"></i></button>
+
                     <ul class="navbar-nav ml-auto">
-
-                        <div class="topbar-divider d-none d-sm-block"></div>
-
+                        <li class="nav-item"><a href="https://app.contaazul.com/#/ca/visao-geral" target="_blank"><img
+                                    src="img/contaazul.jpeg" style="height:40px; margin-right:15px;"></a></li>
+                        <li class="nav-item"><a
+                                href="https://www.hodiebooking.com.br/ingredion/login.php?src=ver_2&msg="
+                                target="_blank"><img src="img/hodiebooking.jpeg"
+                                    style="height:40px; margin-right:15px;"></a></li>
                         <li class="nav-item dropdown no-arrow">
-                        <li class="nav-item">
-                            <a href="https://app.contaazul.com/#/ca/visao-geral" target="_blank">
-                                <img src="img/contaazul.jpeg" alt="Conta Azul" style="height:40px; margin-right:15px;">
-                            </a>
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span
+                                    class="mr-2 d-none d-lg-inline text-gray-900 font-weight-bold">Opções</span></a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="login.html"><i
+                                        class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>Sair</a>
+                            </div>
                         </li>
-
-                        <!-- Imagem HodieBooking -->
-                        <li class="nav-item">
-                            <a href="https://www.hodiebooking.com.br/ingredion/login.php?src=ver_2&msg="
-                                target="_blank">
-                                <img src="img/hodiebooking.jpeg" alt="HodieBooking"
-                                    style="height:40px; margin-right:15px;">
-                            </a>
-                        </li>
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="mr-2 d-none d-lg-inline text-gray-900">Opções</span>
-
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                            aria-labelledby="userDropdown">
-
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="login.html">
-                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Sair
-                            </a>
-                        </div>
-                        </li>
-
                     </ul>
                 </nav>
+
+                <!-- Conteúdo Principal -->
                 <div class="container-fluid">
-                    <div class="row">
-                        <div class="container-fluid">
+                    <h1 class="h3 mb-4 text-gray-800"><i class="fas fa-map-marked-alt text-primary"></i> Gerenciar
+                        Posições</h1>
 
-                            <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                                <h1 class="h3 mb-0 text-gray-800">Nova Posição</h1>
+                    <div class="card p-4 mb-4 shadow">
+                        <form id="caixaForms">
+                            <div class="form-row align-items-center">
+                                <div class="form-group col-md-6">
+                                    <label>Nome da Posição</label>
+                                    <input type="text" name="posicao" class="form-control" placeholder="Ex: A1-01-01"
+                                        required>
+                                </div>
+                                <div class="form-group col-md-3 align-self-end">
+                                    <button type="submit" class="btn btn-success btn-block">Cadastrar</button>
+                                </div>
                             </div>
-
-
-                            <div class="card card-body">
-                                <form id="caixaForms">
-                                    <input type="text" name="posicao" placeholder="Posição" required>
-                                    <button type="submit" class='btn btn-success'>Cadastrar</button>
-                                </form>
-                            </div>
-
-                            <br>
-                        </div>
+                        </form>
                     </div>
+
                     <div class="row" id="posicaoCards"></div>
-                    <!-- Modal de Edição -->
-                    <div class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="modalEditarLabel"
-                        aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="modalEditarLabel">Editar Posição</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Fechar"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form id="formEditar">
-                                        <input type="hidden" id="editarId">
-                                        <div class="mb-3">
-                                            <label for="editarPosicao" class="form-label">Nome da Posição</label>
-                                            <input type="text" class="form-control" id="editarPosicao" required>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary">Salvar</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </div>
     </div>
-</body>
 
-<script src="js/scriptposicao.js"></script>
-<script src="vendor2/jquery/jquery.min.js"></script>
-<script src="vendor2/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="vendor2/jquery-easing/jquery.easing.min.js"></script>
-<script src="js2/sb-admin-2.min.js"></script>
+    <!-- Modal Editar Posição -->
+    <div class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="modalEditarLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title" id="modalEditarLabel">Editar Posição</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Fechar"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formEditar">
+                        <input type="hidden" id="editarId">
+                        <div class="mb-3">
+                            <label for="editarPosicao" class="form-label">Nome da Posição</label>
+                            <input type="text" class="form-control" id="editarPosicao" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/scriptposicao.js"></script>
+    <script src="vendor2/jquery/jquery.min.js"></script>
+    <script src="vendor2/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="vendor2/jquery-easing/jquery.easing.min.js"></script>
+    <script src="js2/sb-admin-2.min.js"></script>
+</body>
 
 </html>

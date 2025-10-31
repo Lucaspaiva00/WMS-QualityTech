@@ -2,15 +2,85 @@
 <html lang="pt-BR">
 
 <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Minuta CTe - WMS</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>🚚 Minuta CTe - Paiva Tech WMS</title>
 
-        <!-- Estilos -->
-        <link rel="stylesheet" href="css/style.css" />
-        <link href="vendor2/fontawesome-free/css/all.min.css" rel="stylesheet" />
-        <link href="css2/sb-admin-2.min.css" rel="stylesheet" />
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+                rel="stylesheet">
+        <link href="vendor2/fontawesome-free/css/all.min.css" rel="stylesheet">
+        <link href="css2/sb-admin-2.min.css" rel="stylesheet">
+
+        <style>
+                body {
+                        font-family: "Poppins", sans-serif;
+                        background-color: #f4f5fa;
+                }
+
+                .bg-gradient-dark {
+                        background: linear-gradient(180deg, #0d1117 0%, #1f2937 100%);
+                }
+
+                .sidebar-dark .nav-item .nav-link span {
+                        color: #fff;
+                        font-weight: 500;
+                }
+
+                .sidebar-dark .nav-item .nav-link:hover {
+                        background-color: rgba(255, 255, 255, 0.1);
+                }
+
+                .nav-item.active .nav-link {
+                        background-color: #e50914 !important;
+                        border-radius: 8px;
+                }
+
+                .card {
+                        border: none;
+                        border-radius: 12px;
+                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+                        background: #fff;
+                        transition: all 0.2s ease-in-out;
+                }
+
+                .card:hover {
+                        transform: translateY(-3px);
+                        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+                }
+
+                table th {
+                        background-color: #111827;
+                        color: #fff;
+                }
+
+                .btn-primary {
+                        background-color: #e50914;
+                        border: none;
+                        font-weight: 600;
+                }
+
+                .btn-primary:hover {
+                        background-color: #b20710;
+                }
+
+                .btn-success {
+                        background-color: #16a34a;
+                        border: none;
+                        font-weight: 600;
+                }
+
+                .btn-success:hover {
+                        background-color: #15803d;
+                }
+
+                .btn-danger {
+                        font-weight: 600;
+                }
+
+                label {
+                        font-weight: 500;
+                }
+        </style>
 </head>
 
 <body id="page-top">
@@ -19,206 +89,173 @@
                 <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
                         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                                 <div class="sidebar-brand-text mx-3">
-                                        <img src="img/logooficial.png"
-                                                style="height: 50px; object-fit: contain; margin-left: 10px;"
-                                                alt="Logo">
+                                        <img src="img/logooficial.png" style="height: 55px; object-fit: contain;"
+                                                alt="Logo Paiva Tech">
                                 </div>
                         </a>
 
-                        <hr class="sidebar-divider my-0" />
+                        <hr class="sidebar-divider my-0">
+                        <li class="nav-item"><a class="nav-link" href="index.html"><i
+                                                class="fas fa-fw fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                        <hr class="sidebar-divider">
 
-                        <li class="nav-item active">
-                                <a class="nav-link" href="index.html">
-                                        <i class="fas fa-fw fa-tachometer-alt"></i>
-                                        <span>Dashboard</span>
-                                </a>
-                        </li>
+                        <div class="sidebar-heading">Gestão</div>
+                        <li class="nav-item"><a class="nav-link" href="material.html"><i
+                                                class="fas fa-boxes"></i><span>Entrada de Material</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="saida.html"><i
+                                                class="fas fa-truck-loading"></i><span>Ordem de Embarque</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="posicao.html"><i
+                                                class="fas fa-map-marked-alt"></i><span>Posições</span></a></li>
 
-                        <hr class="sidebar-divider" />
-                        <div class="sidebar-heading">Páginas</div>
+                        <hr class="sidebar-divider">
+                        <div class="sidebar-heading">Cadastros</div>
+                        <li class="nav-item"><a class="nav-link" href="produto.html"><i
+                                                class="fas fa-cube"></i><span>Produtos</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="cliente.html"><i
+                                                class="fas fa-user-tie"></i><span>Clientes</span></a></li>
+                        <li class="nav-item active"><a class="nav-link" href="minuta.html"><i
+                                                class="fas fa-file-invoice"></i><span>Minutas CTe</span></a></li>
 
-                        <!-- Entrada de Material -->
-                        <li class="nav-item">
-                                <a class="nav-link collapsed" href="#" data-toggle="collapse"
-                                        data-target="#collapseMaterial">
-                                        <i class="fa fa-box"></i>
-                                        <span style="color: white;">Entrada de Material</span>
-                                </a>
-                                <div id="collapseMaterial" class="collapse">
-                                        <div class="bg-white py-2 collapse-inner rounded">
-                                                <a class="collapse-item" href="material.html">Cadastrar Entrada</a>
-                                                <a class="collapse-item" href="saida.html">Ordem de Embarque</a>
-                                                <a class="collapse-item" href="posicao.html">Posição</a>
-                                        </div>
-                                </div>
-                        </li>
-
-                        <!-- Cadastro de Produtos -->
-                        <li class="nav-item">
-                                <a class="nav-link collapsed" href="#" data-toggle="collapse"
-                                        data-target="#collapseProdutos">
-                                        <i class="fa fa-cubes"></i>
-                                        <span style="color: white;">Cadastro de Produtos</span>
-                                </a>
-                                <div id="collapseProdutos" class="collapse">
-                                        <div class="bg-white py-2 collapse-inner rounded">
-                                                <a class="collapse-item" href="produto.html">Cadastrar Produto</a>
-                                        </div>
-                                </div>
-                        </li>
-
-                        <!-- Cadastro de Clientes -->
-                        <li class="nav-item">
-                                <a class="nav-link collapsed" href="#" data-toggle="collapse"
-                                        data-target="#collapseClientes">
-                                        <i class="fa fa-users"></i>
-                                        <span style="color: white;">Cadastro de Clientes</span>
-                                </a>
-                                <div id="collapseClientes" class="collapse">
-                                        <div class="bg-white py-2 collapse-inner rounded">
-                                                <a class="collapse-item" href="cliente.html">Cadastrar Cliente</a>
-                                        </div>
-                                </div>
-                        </li>
-
-                        <hr class="sidebar-divider d-none d-md-block" />
-                        <div class="text-center d-none d-md-inline">
-                                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-                        </div>
+                        <hr class="sidebar-divider d-none d-md-block">
+                        <div class="text-center d-none d-md-inline"><button class="rounded-circle border-0"
+                                        id="sidebarToggle"></button></div>
                 </ul>
-                <!-- Fim Sidebar -->
 
-                <!-- Conteúdo Principal -->
+                <!-- Conteúdo -->
                 <div id="content-wrapper" class="d-flex flex-column">
                         <div id="content">
                                 <!-- Topbar -->
-                                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                                <nav
+                                        class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow-sm">
                                         <button id="sidebarToggleTop"
-                                                class="btn btn-link d-md-none rounded-circle mr-3">
-                                                <i class="fa fa-bars"></i>
-                                        </button>
+                                                class="btn btn-link d-md-none rounded-circle mr-3"><i
+                                                        class="fa fa-bars"></i></button>
                                         <ul class="navbar-nav ml-auto">
-                                                <li class="nav-item">
-                                                        <a href="https://app.contaazul.com/#/ca/visao-geral"
-                                                                target="_blank">
-                                                                <img src="img/contaazul.jpeg" alt="Conta Azul"
-                                                                        style="height:40px; margin-right:15px;">
-                                                        </a>
+                                                <li class="nav-item"><a
+                                                                href="https://app.contaazul.com/#/ca/visao-geral"
+                                                                target="_blank"><img src="img/contaazul.jpeg"
+                                                                        style="height:40px; margin-right:15px;"></a>
                                                 </li>
-                                                <li class="nav-item">
-                                                        <a href="https://www.hodiebooking.com.br/ingredion/login.php?src=ver_2&msg="
-                                                                target="_blank">
-                                                                <img src="img/hodiebooking.jpeg" alt="HodieBooking"
-                                                                        style="height:40px; margin-right:15px;">
-                                                        </a>
+                                                <li class="nav-item"><a
+                                                                href="https://www.hodiebooking.com.br/ingredion/login.php?src=ver_2&msg="
+                                                                target="_blank"><img src="img/hodiebooking.jpeg"
+                                                                        style="height:40px; margin-right:15px;"></a>
                                                 </li>
                                                 <li class="nav-item dropdown no-arrow">
                                                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown"
-                                                                role="button" data-toggle="dropdown">
-                                                                <span
-                                                                        class="mr-2 d-none d-lg-inline text-gray-900">Opções</span>
-                                                        </a>
+                                                                role="button" data-toggle="dropdown"
+                                                                aria-haspopup="true" aria-expanded="false"><span
+                                                                        class="mr-2 d-none d-lg-inline text-gray-900 font-weight-bold">Opções</span></a>
                                                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                                                 aria-labelledby="userDropdown">
-                                                                <a class="dropdown-item" href="login.html">
-                                                                        <i
-                                                                                class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>Sair
-                                                                </a>
+                                                                <a class="dropdown-item" href="login.html"><i
+                                                                                class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>Sair</a>
                                                         </div>
                                                 </li>
                                         </ul>
                                 </nav>
 
-                                <!-- Conteúdo da Página -->
+                                <!-- Conteúdo Principal -->
                                 <div class="container-fluid">
-                                        <h3 class="mb-4">Gerar Minuta CTe</h3>
+                                        <h1 class="h3 mb-4 text-gray-800"><i
+                                                        class="fas fa-file-invoice text-primary"></i> Minuta CTe</h1>
 
-                                        <form id="formMinuta" class="mb-4">
-                                                <div class="form-row">
-                                                        <div class="form-group col-md-4">
-                                                                <label>CCT</label>
-                                                                <input type="text" class="form-control" name="cct"
-                                                                        required>
+                                        <!-- Formulário -->
+                                        <div class="card p-4 mb-4">
+                                                <form id="formMinuta">
+                                                        <div class="form-row">
+                                                                <div class="form-group col-md-4">
+                                                                        <label>CCT</label>
+                                                                        <input type="text" name="cct"
+                                                                                class="form-control" required>
+                                                                </div>
+                                                                <div class="form-group col-md-4">
+                                                                        <label>Série</label>
+                                                                        <input type="text" name="serie"
+                                                                                class="form-control" required>
+                                                                </div>
+                                                                <div class="form-group col-md-4">
+                                                                        <label>Número CTe</label>
+                                                                        <input type="text" name="nCT"
+                                                                                class="form-control" required>
+                                                                </div>
                                                         </div>
-                                                        <div class="form-group col-md-4">
-                                                                <label>Série</label>
-                                                                <input type="text" class="form-control" name="serie"
-                                                                        required>
+
+                                                        <div class="form-row">
+                                                                <div class="form-group col-md-6">
+                                                                        <label>Data de Emissão</label>
+                                                                        <input type="datetime-local" name="dhEmi"
+                                                                                class="form-control" required>
+                                                                </div>
+                                                                <div class="form-group col-md-3">
+                                                                        <label>Município Início</label>
+                                                                        <input type="text" name="cMunIni"
+                                                                                class="form-control" required>
+                                                                </div>
+                                                                <div class="form-group col-md-3">
+                                                                        <label>Município Fim</label>
+                                                                        <input type="text" name="cMunFim"
+                                                                                class="form-control" required>
+                                                                </div>
                                                         </div>
-                                                        <div class="form-group col-md-4">
-                                                                <label>Número CTe</label>
-                                                                <input type="text" class="form-control" name="nCT"
-                                                                        required>
+
+                                                        <div class="form-row">
+                                                                <div class="form-group col-md-6">
+                                                                        <label>CNPJ Remetente</label>
+                                                                        <input type="text" name="remetenteCNPJ"
+                                                                                class="form-control" required>
+                                                                </div>
+                                                                <div class="form-group col-md-6">
+                                                                        <label>CNPJ Destinatário</label>
+                                                                        <input type="text" name="destinatarioCNPJ"
+                                                                                class="form-control" required>
+                                                                </div>
                                                         </div>
+
+                                                        <div class="form-row">
+                                                                <div class="form-group col-md-6">
+                                                                        <label>Valor da Prestação</label>
+                                                                        <input type="number" step="0.01"
+                                                                                name="valorPrestacao"
+                                                                                class="form-control" required>
+                                                                </div>
+                                                                <div class="form-group col-md-6">
+                                                                        <label>Valor da Carga</label>
+                                                                        <input type="number" step="0.01"
+                                                                                name="valorCarga" class="form-control"
+                                                                                required>
+                                                                </div>
+                                                        </div>
+
+                                                        <button type="submit" class="btn btn-success">Salvar
+                                                                Minuta</button>
+                                                </form>
+                                        </div>
+
+                                        <!-- Tabela -->
+                                        <div class="card p-4 shadow">
+                                                <h5 class="text-secondary mb-3"><i class="fas fa-list"></i> Minutas
+                                                        Cadastradas</h5>
+                                                <div class="table-responsive">
+                                                        <table class="table table-striped table-hover"
+                                                                id="tabelaMinutas">
+                                                                <thead class="thead-dark">
+                                                                        <tr>
+                                                                                <th>ID</th>
+                                                                                <th>CCT</th>
+                                                                                <th>Número</th>
+                                                                                <th>Ações</th>
+                                                                        </tr>
+                                                                </thead>
+                                                                <tbody></tbody>
+                                                        </table>
                                                 </div>
-
-                                                <div class="form-row">
-                                                        <div class="form-group col-md-6">
-                                                                <label>Data Emissão</label>
-                                                                <input type="datetime-local" class="form-control"
-                                                                        name="dhEmi" required>
-                                                        </div>
-                                                        <div class="form-group col-md-3">
-                                                                <label>Município Início</label>
-                                                                <input type="text" class="form-control" name="cMunIni"
-                                                                        required>
-                                                        </div>
-                                                        <div class="form-group col-md-3">
-                                                                <label>Município Fim</label>
-                                                                <input type="text" class="form-control" name="cMunFim"
-                                                                        required>
-                                                        </div>
-                                                </div>
-
-                                                <div class="form-row">
-                                                        <div class="form-group col-md-6">
-                                                                <label>CNPJ Remetente</label>
-                                                                <input type="text" class="form-control"
-                                                                        name="remetenteCNPJ" required>
-                                                        </div>
-                                                        <div class="form-group col-md-6">
-                                                                <label>CNPJ Destinatário</label>
-                                                                <input type="text" class="form-control"
-                                                                        name="destinatarioCNPJ" required>
-                                                        </div>
-                                                </div>
-
-                                                <div class="form-row">
-                                                        <div class="form-group col-md-6">
-                                                                <label>Valor Prestação</label>
-                                                                <input type="number" step="0.01" class="form-control"
-                                                                        name="valorPrestacao" required>
-                                                        </div>
-                                                        <div class="form-group col-md-6">
-                                                                <label>Valor Carga</label>
-                                                                <input type="number" step="0.01" class="form-control"
-                                                                        name="valorCarga" required>
-                                                        </div>
-                                                </div>
-
-                                                <button class="btn btn-primary">Salvar</button>
-                                        </form>
-
-                                        <hr>
-
-                                        <h5>Minutas Cadastradas</h5>
-                                        <table class="table table-striped table-bordered mt-3" id="tabelaMinutas">
-                                                <thead class="thead-dark">
-                                                        <tr>
-                                                                <th>ID</th>
-                                                                <th>CCT</th>
-                                                                <th>Número</th>
-                                                                <th>Ações</th>
-                                                        </tr>
-                                                </thead>
-                                                <tbody></tbody>
-                                        </table>
+                                        </div>
                                 </div>
                         </div>
                 </div>
         </div>
 
-        <!-- Scripts -->
         <script src="vendor2/jquery/jquery.min.js"></script>
         <script src="vendor2/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="vendor2/jquery-easing/jquery.easing.min.js"></script>

@@ -1,51 +1,120 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel Central</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link href="vendor2/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <title>Painel Central - Paiva Tech</title>
 
+    <!-- Fontes e ícones -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="vendor2/fontawesome-free/css/all.min.css" rel="stylesheet">
     <link href="css2/sb-admin-2.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: "Poppins", sans-serif;
+            background-color: #f4f5fa;
+            color: #1a1a1a;
+        }
+
+        /* Sidebar */
+        .bg-gradient-dark {
+            background: linear-gradient(180deg, #0d1117 0%, #1f2937 100%);
+        }
+
+        .sidebar-dark .nav-item .nav-link span {
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .sidebar-dark .nav-item .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-item.active .nav-link {
+            background-color: #e50914 !important;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        /* Cards */
+        .card {
+            border: none;
+            border-radius: 14px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.2s ease-in-out;
+            background: #fff;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+        }
+
+        .card .icon-bg {
+            background-color: #f8f9fc;
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        .text-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #111;
+        }
+
+        /* Cabeçalho */
+        .navbar {
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .topbar .nav-item img {
+            border-radius: 6px;
+        }
+
+        /* Animação */
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Título principal */
+        h1 {
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 30px;
+        }
+    </style>
 </head>
-<style>
-    .sidebar-dark .nav-item .nav-link span {
-        color: #fff;
-        font-weight: 500;
-    }
-
-    .sidebar-dark .nav-item .nav-link:hover {
-        background-color: rgba(255, 255, 255, 0.1);
-    }
-
-    .nav-item.active .nav-link {
-        background-color: #4e73df !important;
-        border-radius: 0.35rem;
-    }
-
-    .card i {
-        opacity: 0.4;
-        transition: opacity 0.2s ease;
-    }
-
-    .card:hover i {
-        opacity: 0.9;
-    }
-</style>
 
 <body>
     <div id="wrapper">
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
-
-            <!-- Marca -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                 <div class="sidebar-brand-text mx-3">
                     <img src="img/logooficial.png"
-                        style="height: 50px; object-fit: contain; display: inline-block; vertical-align: middle;"
-                        alt="Logo">
+                        style="height: 55px; object-fit: contain; display: inline-block; vertical-align: middle;"
+                        alt="Logo Paiva Tech">
                 </div>
             </a>
 
@@ -62,77 +131,38 @@
             <hr class="sidebar-divider">
             <div class="sidebar-heading">Gestão</div>
 
-            <!-- Entrada de Material -->
-            <li class="nav-item">
-                <a class="nav-link" href="material.html">
-                    <i class="fas fa-boxes"></i>
-                    <span>Entrada de Material</span>
-                </a>
-            </li>
-
-            <!-- Ordem de Embarque -->
-            <li class="nav-item">
-                <a class="nav-link" href="saida.html">
-                    <i class="fas fa-truck-loading"></i>
-                    <span>Ordem de Embarque</span>
-                </a>
-            </li>
-
-            <!-- Posições -->
-            <li class="nav-item">
-                <a class="nav-link" href="posicao.html">
-                    <i class="fas fa-map-marked-alt"></i>
-                    <span>Posições</span>
-                </a>
-            </li>
+            <li class="nav-item"><a class="nav-link" href="material.html"><i class="fas fa-boxes"></i><span>Entrada de
+                        Material</span></a></li>
+            <li class="nav-item"><a class="nav-link" href="saida.html"><i class="fas fa-truck-loading"></i><span>Ordem
+                        de Embarque</span></a></li>
+            <li class="nav-item"><a class="nav-link" href="posicao.html"><i
+                        class="fas fa-map-marked-alt"></i><span>Posições</span></a></li>
 
             <hr class="sidebar-divider">
             <div class="sidebar-heading">Cadastros</div>
 
-            <!-- Produtos -->
-            <li class="nav-item">
-                <a class="nav-link" href="produto.html">
-                    <i class="fas fa-cube"></i>
-                    <span>Produtos</span>
-                </a>
-            </li>
-
-            <!-- Clientes -->
-            <li class="nav-item">
-                <a class="nav-link" href="cliente.html">
-                    <i class="fas fa-user-tie"></i>
-                    <span>Clientes</span>
-                </a>
-            </li>
-
-            <!-- Minutas -->
-            <li class="nav-item">
-                <a class="nav-link" href="minuta.html">
-                    <i class="fas fa-file-invoice"></i>
-                    <span>Minutas</span>
-                </a>
-            </li>
+            <li class="nav-item"><a class="nav-link" href="produto.html"><i
+                        class="fas fa-cube"></i><span>Produtos</span></a></li>
+            <li class="nav-item"><a class="nav-link" href="cliente.html"><i
+                        class="fas fa-user-tie"></i><span>Clientes</span></a></li>
+            <li class="nav-item"><a class="nav-link" href="minuta.html"><i
+                        class="fas fa-file-invoice"></i><span>Minutas</span></a></li>
 
             <hr class="sidebar-divider d-none d-md-block">
-
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
         </ul>
-        <!-- Fim Sidebar -->
 
-        <!-- Conteúdo principal -->
+        <!-- Conteúdo -->
         <div id="content-wrapper" class="d-flex flex-column">
             <div id="content">
-                <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow-sm">
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
 
                     <ul class="navbar-nav ml-auto">
-                        <!-- Integrações -->
                         <li class="nav-item">
                             <a href="https://app.contaazul.com/#/ca/visao-geral" target="_blank">
                                 <img src="img/contaazul.jpeg" alt="Conta Azul" style="height:40px; margin-right:15px;">
@@ -145,12 +175,10 @@
                                     style="height:40px; margin-right:15px;">
                             </a>
                         </li>
-
-                        <!-- Menu Usuário -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-900">Opções</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-900 font-weight-bold">Opções</span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
@@ -164,82 +192,83 @@
                 </nav>
 
                 <!-- Conteúdo principal -->
-                <div class="container-fluid">
-                    <h1 class="h4 mb-4 text-gray-800 font-weight-bold">Visão Geral</h1>
+                <div class="container-fluid fade-in">
+                    <h1 class="h3 mb-4 text-gray-800">📊 Visão Geral</h1>
 
                     <div class="row">
 
                         <!-- Materiais -->
                         <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body d-flex justify-content-between align-items-center">
+                            <div class="card shadow h-100 py-3 px-3 border-left-primary">
+                                <div class="d-flex justify-content-between align-items-center">
                                     <div>
-                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                            Materiais Cadastrados</div>
-                                        <div id="material" class="h5 mb-0 font-weight-bold text-gray-800">0</div>
+                                        <div class="text-title text-primary mb-2">Materiais Cadastrados</div>
+                                        <div id="material" class="value">0</div>
                                     </div>
-                                    <i class="fas fa-box fa-2x text-gray-300"></i>
+                                    <div class="icon-bg">
+                                        <i class="fas fa-box fa-2x text-primary"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Embarques -->
                         <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body d-flex justify-content-between align-items-center">
+                            <div class="card shadow h-100 py-3 px-3 border-left-success">
+                                <div class="d-flex justify-content-between align-items-center">
                                     <div>
-                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Ordens de
-                                            Embarque</div>
-                                        <div id="saida" class="h5 mb-0 font-weight-bold text-gray-800">0</div>
+                                        <div class="text-title text-success mb-2">Ordens de Embarque</div>
+                                        <div id="saida" class="value">0</div>
                                     </div>
-                                    <i class="fas fa-truck fa-2x text-gray-300"></i>
+                                    <div class="icon-bg">
+                                        <i class="fas fa-truck fa-2x text-success"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Clientes -->
                         <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-warning shadow h-100 py-2">
-                                <div class="card-body d-flex justify-content-between align-items-center">
+                            <div class="card shadow h-100 py-3 px-3 border-left-warning">
+                                <div class="d-flex justify-content-between align-items-center">
                                     <div>
-                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Clientes
-                                            Ativos</div>
-                                        <div id="clientes" class="h5 mb-0 font-weight-bold text-gray-800">0</div>
+                                        <div class="text-title text-warning mb-2">Clientes Ativos</div>
+                                        <div id="clientes" class="value">0</div>
                                     </div>
-                                    <i class="fas fa-user-friends fa-2x text-gray-300"></i>
+                                    <div class="icon-bg">
+                                        <i class="fas fa-user-friends fa-2x text-warning"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Minutas -->
                         <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-info shadow h-100 py-2">
-                                <div class="card-body d-flex justify-content-between align-items-center">
+                            <div class="card shadow h-100 py-3 px-3 border-left-info">
+                                <div class="d-flex justify-content-between align-items-center">
                                     <div>
-                                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Minutas
-                                            Geradas</div>
-                                        <div id="minutas" class="h5 mb-0 font-weight-bold text-gray-800">0</div>
+                                        <div class="text-title text-info mb-2">Minutas Geradas</div>
+                                        <div id="minutas" class="value">0</div>
                                     </div>
-                                    <i class="fas fa-file-alt fa-2x text-gray-300"></i>
+                                    <div class="icon-bg">
+                                        <i class="fas fa-file-alt fa-2x text-info"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</body>
 
-<script src="https://code.jscharting.com/2.9.0/jscharting.js"></script>
-<script src="js/index.js"></script>
-<script src="vendor2/jquery/jquery.min.js"></script>
-<script src="vendor2/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="vendor2/jquery-easing/jquery.easing.min.js"></script>
-<script src="js2/sb-admin-2.min.js"></script>
-<script src="vendor2/chart.js/Chart.min.js"></script>
-<script src="js2/demo/chart-area-demo.js"></script>
-<script src="js2/demo/chart-pie-demo.js"></script>
+    <!-- Scripts -->
+    <script src="vendor2/jquery/jquery.min.js"></script>
+    <script src="vendor2/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="vendor2/jquery-easing/jquery.easing.min.js"></script>
+    <script src="js2/sb-admin-2.min.js"></script>
+    <script src="js/index.js"></script>
+</body>
 
 </html>

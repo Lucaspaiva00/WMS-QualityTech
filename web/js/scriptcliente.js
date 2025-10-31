@@ -3,7 +3,7 @@ const uri = "http://localhost:3000/cliente";
 const clienteTbody = document.querySelector("#cliente");
 
 // ===== CADASTRAR CLIENTE =====
-caixaForm.addEventListener('submit', async (e) => {
+caixaForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     const data = {
         nome_cliente: caixaForm.nome_cliente.value,
@@ -15,7 +15,7 @@ caixaForm.addEventListener('submit', async (e) => {
     try {
         const res = await fetch(uri, {
             method: "POST",
-            headers: { 'Content-Type': "application/json" },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data)
         });
 
@@ -38,47 +38,43 @@ const carregarClientes = async () => {
         const resp = await fetch(uri);
         const clientes = await resp.json();
 
-        clientes.forEach(e => {
+        clientes.forEach((e) => {
             clienteTbody.innerHTML += `
-            <tr data-id="${e.cod_cliente}">
-                <td>${e.nome_cliente}</td>
-                <td>${e.cnpj}</td>
-                <td>${e.endereco}</td>
-                <td>${e.telefone}</td>
-                <td>
-                    <button type="button" class='btn btn-primary btn-sm' onClick='editaroperacao(this)'>Editar</button>
-                </td>
-            </tr>
-            `;
+        <tr data-id="${e.cod_cliente}">
+          <td>${e.nome_cliente}</td>
+          <td>${e.cnpj}</td>
+          <td>${e.endereco}</td>
+          <td>${e.telefone}</td>
+          <td>
+            <button class='btn btn-primary btn-sm' onClick='editaroperacao(this)'>Editar</button>
+          </td>
+        </tr>`;
         });
     } catch (error) {
         console.error(error);
     }
 };
 
-// Chama ao carregar a página
+// ===== CHAMAR AO CARREGAR =====
 carregarClientes();
 
-// ===== EDITAR CLIENTE COM MODAL =====
+// ===== EDITAR CLIENTE =====
 function editaroperacao(botao) {
     const linha = botao.closest("tr");
     const cod_cliente = linha.getAttribute("data-id");
-
-    const modal = $('#modalEditarCliente');
+    const modal = $("#modalEditarCliente");
     const form = document.querySelector("#formEditarCliente");
 
-    // Preenche o modal com os valores atuais
     form.nome_cliente.value = linha.children[0].innerText;
     form.cnpj.value = linha.children[1].innerText;
     form.endereco.value = linha.children[2].innerText;
     form.telefone.value = linha.children[3].innerText;
 
-    modal.modal('show');
+    modal.modal("show");
 
     form.onsubmit = async (e) => {
         e.preventDefault();
         const atualizado = {
-            cod_cliente: parseInt(cod_cliente),
             nome_cliente: form.nome_cliente.value,
             cnpj: form.cnpj.value,
             endereco: form.endereco.value,
@@ -94,7 +90,7 @@ function editaroperacao(botao) {
 
             if (res.status === 202) {
                 alert("Cliente atualizado com sucesso!");
-                modal.modal('hide');
+                modal.modal("hide");
                 carregarClientes();
             } else {
                 alert("Erro ao atualizar cliente");
