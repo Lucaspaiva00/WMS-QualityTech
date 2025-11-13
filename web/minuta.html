@@ -53,40 +53,27 @@
                         color: #fff;
                 }
 
-                .btn-primary {
-                        background-color: #e50914;
-                        border: none;
-                        font-weight: 600;
-                }
-
-                .btn-primary:hover {
-                        background-color: #b20710;
+                label {
+                        font-weight: 500;
                 }
 
                 .btn-success {
-                        background-color: #16a34a;
-                        border: none;
                         font-weight: 600;
-                }
-
-                .btn-success:hover {
-                        background-color: #15803d;
                 }
 
                 .btn-danger {
                         font-weight: 600;
-                }
-
-                label {
-                        font-weight: 500;
                 }
         </style>
 </head>
 
 <body id="page-top">
         <div id="wrapper">
+
                 <!-- Sidebar -->
                 <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
+
+                        <!-- Brand -->
                         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                                 <div class="sidebar-brand-text mx-3">
                                         <img src="img/logooficial.png" style="height:55px;object-fit:contain"
@@ -100,9 +87,9 @@
 
                         <hr class="sidebar-divider">
                         <div class="sidebar-heading">Gestão</div>
+
                         <li class="nav-item"><a class="nav-link" href="material.html"><i
-                                                class="fas fa-boxes"></i><span>Entrada de
-                                                Material</span></a></li>
+                                                class="fas fa-boxes"></i><span>Entrada de Material</span></a></li>
                         <li class="nav-item"><a class="nav-link" href="saida.html"><i
                                                 class="fas fa-clipboard-list"></i><span>Relatório de Embarque</span></a>
                         </li>
@@ -113,6 +100,7 @@
 
                         <hr class="sidebar-divider">
                         <div class="sidebar-heading">Cadastros</div>
+
                         <li class="nav-item"><a class="nav-link" href="produto.html"><i
                                                 class="fas fa-cube"></i><span>Produtos</span></a></li>
                         <li class="nav-item"><a class="nav-link" href="cliente.html"><i
@@ -121,45 +109,58 @@
                                                 class="fas fa-file-invoice"></i><span>Minutas</span></a></li>
 
                         <hr class="sidebar-divider d-none d-md-block">
-                        <div class="text-center d-none d-md-inline"><button class="rounded-circle border-0"
-                                        id="sidebarToggle"></button></div>
+
+                        <div class="text-center d-none d-md-inline">
+                                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+                        </div>
                 </ul>
 
-                <!-- Conteúdo -->
+                <!-- Content Wrapper -->
                 <div id="content-wrapper" class="d-flex flex-column">
                         <div id="content">
+
                                 <!-- Topbar -->
                                 <nav
                                         class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow-sm">
                                         <button id="sidebarToggleTop"
-                                                class="btn btn-link d-md-none rounded-circle mr-3"><i
-                                                        class="fa fa-bars"></i></button>
+                                                class="btn btn-link d-md-none rounded-circle mr-3">
+                                                <i class="fa fa-bars"></i>
+                                        </button>
+
                                         <ul class="navbar-nav ml-auto">
-                                                <li class="nav-item"><a
-                                                                href="https://app.contaazul.com/#/ca/visao-geral"
-                                                                target="_blank"><img src="img/contaazul.jpeg"
-                                                                        style="height:40px; margin-right:15px;"></a>
+                                                <li class="nav-item">
+                                                        <a href="https://app.contaazul.com/#/ca/visao-geral"
+                                                                target="_blank">
+                                                                <img src="img/contaazul.jpeg"
+                                                                        style="height:40px; margin-right:15px;">
+                                                        </a>
                                                 </li>
-                                                <li class="nav-item"><a
-                                                                href="https://www.hodiebooking.com.br/ingredion/login.php?src=ver_2&msg="
-                                                                target="_blank"><img src="img/hodiebooking.jpeg"
-                                                                        style="height:40px; margin-right:15px;"></a>
+                                                <li class="nav-item">
+                                                        <a href="https://www.hodiebooking.com.br/ingredion/login.php?src=ver_2&msg="
+                                                                target="_blank">
+                                                                <img src="img/hodiebooking.jpeg"
+                                                                        style="height:40px; margin-right:15px;">
+                                                        </a>
                                                 </li>
+
                                                 <li class="nav-item dropdown no-arrow">
                                                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown"
-                                                                role="button" data-toggle="dropdown"
-                                                                aria-haspopup="true" aria-expanded="false"><span
-                                                                        class="mr-2 d-none d-lg-inline text-gray-900 font-weight-bold">Opções</span></a>
-                                                        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                                                aria-labelledby="userDropdown">
-                                                                <a class="dropdown-item" href="login.html"><i
-                                                                                class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>Sair</a>
+                                                                data-toggle="dropdown">
+                                                                <span
+                                                                        class="mr-2 d-none d-lg-inline text-gray-900 font-weight-bold">Opções</span>
+                                                        </a>
+                                                        <div
+                                                                class="dropdown-menu dropdown-menu-right shadow animated--grow-in">
+                                                                <a class="dropdown-item" href="login.html">
+                                                                        <i
+                                                                                class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>Sair
+                                                                </a>
                                                         </div>
                                                 </li>
                                         </ul>
                                 </nav>
 
-                                <!-- Conteúdo Principal -->
+                                <!-- Main Content -->
                                 <div class="container-fluid">
                                         <h1 class="h3 mb-4 text-gray-800"><i
                                                         class="fas fa-file-invoice text-primary"></i> Minuta CTe</h1>
@@ -167,38 +168,37 @@
                                         <!-- Formulário -->
                                         <div class="card p-4 mb-4">
                                                 <form id="formMinuta">
+
                                                         <div class="form-row">
                                                                 <div class="form-group col-md-4">
-                                                                        <label>CCT</label>
-                                                                        <input type="text" name="cct"
+                                                                        <label>CCT (8 dígitos)</label>
+                                                                        <input type="text" name="cct" maxlength="8"
                                                                                 class="form-control" required>
                                                                 </div>
+
                                                                 <div class="form-group col-md-4">
-                                                                        <label>Série</label>
-                                                                        <input type="text" name="serie"
-                                                                                class="form-control" required>
-                                                                </div>
-                                                                <div class="form-group col-md-4">
-                                                                        <label>Número CTe</label>
+                                                                        <label>Número do CTe</label>
                                                                         <input type="text" name="nCT"
+                                                                                class="form-control" required>
+                                                                </div>
+
+                                                                <div class="form-group col-md-4">
+                                                                        <label>Data de Emissão</label>
+                                                                        <input type="datetime-local" name="dhEmi"
                                                                                 class="form-control" required>
                                                                 </div>
                                                         </div>
 
                                                         <div class="form-row">
                                                                 <div class="form-group col-md-6">
-                                                                        <label>Data de Emissão</label>
-                                                                        <input type="datetime-local" name="dhEmi"
+                                                                        <label>Código IBGE - Município Início</label>
+                                                                        <input type="number" name="cMunIni"
                                                                                 class="form-control" required>
                                                                 </div>
-                                                                <div class="form-group col-md-3">
-                                                                        <label>Município Início</label>
-                                                                        <input type="text" name="cMunIni"
-                                                                                class="form-control" required>
-                                                                </div>
-                                                                <div class="form-group col-md-3">
-                                                                        <label>Município Fim</label>
-                                                                        <input type="text" name="cMunFim"
+
+                                                                <div class="form-group col-md-6">
+                                                                        <label>Código IBGE - Município Fim</label>
+                                                                        <input type="number" name="cMunFim"
                                                                                 class="form-control" required>
                                                                 </div>
                                                         </div>
@@ -209,9 +209,18 @@
                                                                         <input type="text" name="remetenteCNPJ"
                                                                                 class="form-control" required>
                                                                 </div>
+
                                                                 <div class="form-group col-md-6">
                                                                         <label>CNPJ Destinatário</label>
                                                                         <input type="text" name="destinatarioCNPJ"
+                                                                                class="form-control" required>
+                                                                </div>
+                                                        </div>
+
+                                                        <div class="form-row">
+                                                                <div class="form-group col-md-12">
+                                                                        <label>Nome do Destinatário</label>
+                                                                        <input type="text" name="destinatarioNome"
                                                                                 class="form-control" required>
                                                                 </div>
                                                         </div>
@@ -223,6 +232,7 @@
                                                                                 name="valorPrestacao"
                                                                                 class="form-control" required>
                                                                 </div>
+
                                                                 <div class="form-group col-md-6">
                                                                         <label>Valor da Carga</label>
                                                                         <input type="number" step="0.01"
@@ -240,6 +250,7 @@
                                         <div class="card p-4 shadow">
                                                 <h5 class="text-secondary mb-3"><i class="fas fa-list"></i> Minutas
                                                         Cadastradas</h5>
+
                                                 <div class="table-responsive">
                                                         <table class="table table-striped table-hover"
                                                                 id="tabelaMinutas">
@@ -255,9 +266,10 @@
                                                         </table>
                                                 </div>
                                         </div>
-                                </div>
-                        </div>
-                </div>
+
+                                </div><!-- container -->
+                        </div><!-- content -->
+                </div><!-- wrapper -->
         </div>
 
         <script src="vendor2/jquery/jquery.min.js"></script>
@@ -265,6 +277,7 @@
         <script src="vendor2/jquery-easing/jquery.easing.min.js"></script>
         <script src="js2/sb-admin-2.min.js"></script>
         <script src="js/scriptminuta.js"></script>
+
 </body>
 
 </html>

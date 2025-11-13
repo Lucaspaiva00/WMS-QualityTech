@@ -1,7 +1,89 @@
+// src/controller/ctminuta.js
 const { PrismaClient } = require("@prisma/client");
 const fs = require("fs");
 const path = require("path");
+
 const prisma = new PrismaClient();
+
+// ========================
+//  CONFIG FIXA GALPEX / CT-e
+// ========================
+const CTE_CONFIG = {
+  cUF: "35",                 // SP
+  cnpjEmit: "61575248000175",// CNPJ GALPEX
+  mod: "94",
+  serie: "999",
+  tpEmis: "1",
+  tpAmb: "1",                // 1 = produção (seguindo XML exemplo)
+  procEmi: "0",
+  verProc: "AverbePorto 1.7.2",
+  modal: "01",
+  tpServ: "0",               // normal
+  UFIni: "SP",
+  UFFim: "PR",
+  xNomeEmit: "GALPEX ARMAZEN LOGISTICA E TRANSPORTES LTDA",
+};
+
+// ========================
+//  HELPERS
+// ========================
+
+// Formata data no padrão CT-e: 2025-10-21T11:58:30-03:00
+function formatarDhEmi(date) {
+  const d = new Date(date);
+
+  const pad = (n) => String(n).padStart(2, "0");
+  const ano = d.getFullYear();
+  const mes = pad(d.getMonth() + 1);
+  const dia = pad(d.getDate());
+  const hora = pad(d.getHours());
+  const min = pad(d.getMinutes());
+  const seg = pad(d.getSeconds());
+
+  // fixo -03:00 (exemplo deles)
+  return `${ano}-${mes}-${dia}T${hora}:${min}:${seg}-03:00`;
+}
+
+// Calcula DV (dígito verificador) da chave do CT-e (módulo 11)
+function calcularDV(chaveSemDV) {
+  let multiplicador = 2;
+  let soma = 0;
+
+  for (let i = chaveSemDV.length - 1; i >= 0; i--) {
+    soma += parseInt(chaveSemDV[i], 10) * multiplicador;
+    multiplicador = multiplicador === 9 ? 2 : multiplicador + 1;
+  }
+
+  const resto = soma % 11;
+  let dv = 11 - resto;
+
+  if (dv === 0 || dv === 1 || dv > 9) dv = 0;
+
+  return String(dv);
+}
+
+// Gera chave de acesso do CT-e (44 dígitos)
+function gerarChaveCTe(minuta) {
+  const { cUF, cnpjEmit, mod, serie, tpEmis } = CTE_CONFIG;
+
+  const data = new Date(minuta.dhEmi);
+  const ano = String(data.getFullYear()).slice(-2); // ex: 25
+  const mes = String(data.getMonth() + 1).padStart(2, "0"); // ex: 10
+  const AAMM = `${ano}${mes}`; // 2510
+
+  const nCT = String(minuta.nCT).padStart(9, "0");
+  const cCT = String(minuta.cct).padStart(8, "0");
+
+  const chaveSemDV = cUF + AAMM + cnpjEmit + mod + serie + nCT + tpEmis + cCT;
+  const dv = calcularDV(chaveSemDV);
+  const chave = chaveSemDV + dv; // 44 dígitos
+
+  return { chave, dv };
+}
+
+// ========================
+//  CONTROLLERS
+// ========================
 
 // Criar minuta
 async function criarMinuta(req, res) {
@@ -42,7 +124,7 @@ async function criarMinuta(req, res) {
 // Listar minutas
 async function listarMinutas(req, res) {
   try {
-    const minutas = await prisma.Minuta.findMany({
+    const minutas = await prisma.minuta.findMany({
       orderBy: { id: "desc" },
     });
     res.json(minutas);
@@ -64,90 +146,75 @@ async function excluirMinuta(req, res) {
   }
 }
 
-// Gerar XML
-// Gerar XML
+// Gerar XML CT-e simplificado para AverbePorto
 async function gerarXML(req, res) {
   try {
     const { id } = req.params;
     const minuta = await prisma.minuta.findUnique({
       where: { id: Number(id) },
     });
-    if (!minuta) return res.status(404).json({ error: "Minuta não encontrada" });
 
-    // Dados fixos obrigatórios
-    const cUF = "35"; // São Paulo
-    const CNPJ = "61575248000175";
-    const mod = "57"; // Modelo do CTe
-    const serie = "999";
-    const tpEmis = "1";
-
-    // Gerar cCT (código numérico aleatório)
-    const cCT = String(Math.floor(10000000 + Math.random() * 89999999));
-
-    // Gerar chave de acesso base (sem o dígito verificador ainda)
-    const chaveBase = `${cUF}${minuta.dhEmi.getFullYear().toString().slice(2)}${String(minuta.dhEmi.getMonth() + 1).padStart(2, "0")}${CNPJ}${mod}${serie}${minuta.nCT.padStart(9, "0")}${tpEmis}${cCT}`;
-
-    // Calcular dígito verificador (módulo 11)
-    const pesos = [2, 3, 4, 5, 6, 7, 8, 9];
-    let soma = 0;
-    let pesoIndex = 0;
-    for (let i = chaveBase.length - 1; i >= 0; i--) {
-      soma += parseInt(chaveBase[i]) * pesos[pesoIndex];
-      pesoIndex = (pesoIndex + 1) % pesos.length;
+    if (!minuta) {
+      return res.status(404).json({ error: "Minuta não encontrada" });
     }
-    const resto = soma % 11;
-    const cDV = resto === 0 || resto === 1 ? 0 : 11 - resto;
 
-    // Monta ID completo
-    const chaveFinal = `${chaveBase}${cDV}`;
-    const Id = `CTe${chaveFinal}`;
+    // Gera chave + DV
+    const { chave, dv } = gerarChaveCTe(minuta);
+    const dhEmiFormatado = formatarDhEmi(minuta.dhEmi);
 
-    // XML fiel ao modelo da AverbePorto
+    // IMPORTANTE: cMunIni e cMunFim devem ser CÓDIGOS IBGE
+    const cMunIni = minuta.cMunIni;
+    const cMunFim = minuta.cMunFim;
+
+    // CNPJs com 14 dígitos (vindo do form)
+    const remetenteCNPJ = String(minuta.remetenteCNPJ).padStart(14, "0");
+    const destinatarioCNPJ = String(minuta.destinatarioCNPJ).padStart(14, "0");
+
     const xmlContent = `<?xml version="1.0" encoding="UTF-8"?>
 <cteProc xmlns="http://www.portalfiscal.inf.br/cte" versao="3.00">
   <CTe>
-    <infCte Id="${Id}" versao="3.00">
+    <infCte Id="CTe${chave}" versao="3.00">
       <ide>
-        <cUF>${cUF}</cUF>
-        <cCT>${cCT}</cCT>
+        <cUF>${CTE_CONFIG.cUF}</cUF>
+        <cCT>${String(minuta.cct).padStart(8, "0")}</cCT>
         <CFOP>1234</CFOP>
-        <mod>${mod}</mod>
-        <serie>${serie}</serie>
+        <mod>${CTE_CONFIG.mod}</mod>
+        <serie>${CTE_CONFIG.serie}</serie>
         <nCT>${minuta.nCT}</nCT>
-        <dhEmi>${minuta.dhEmi.toISOString()}</dhEmi>
+        <dhEmi>${dhEmiFormatado}</dhEmi>
         <tpImp>1</tpImp>
-        <tpEmis>${tpEmis}</tpEmis>
-        <cDV>${cDV}</cDV>
-        <tpAmb>1</tpAmb>
-        <procEmi>0</procEmi>
-        <verProc>AverbePorto 1.7.2</verProc>
-        <modal>01</modal>
-        <tpServ>0</tpServ>
-        <cMunIni>${minuta.cMunIni}</cMunIni>
-        <UFIni>SP</UFIni>
-        <cMunFim>${minuta.cMunFim}</cMunFim>
-        <UFFim>PR</UFFim>
+        <tpEmis>${CTE_CONFIG.tpEmis}</tpEmis>
+        <cDV>${dv}</cDV>
+        <tpAmb>${CTE_CONFIG.tpAmb}</tpAmb>
+        <procEmi>${CTE_CONFIG.procEmi}</procEmi>
+        <verProc>${CTE_CONFIG.verProc}</verProc>
+        <modal>${CTE_CONFIG.modal}</modal>
+        <tpServ>${CTE_CONFIG.tpServ}</tpServ>
+        <cMunIni>${cMunIni}</cMunIni>
+        <UFIni>${CTE_CONFIG.UFIni}</UFIni>
+        <cMunFim>${cMunFim}</cMunFim>
+        <UFFim>${CTE_CONFIG.UFFim}</UFFim>
       </ide>
       <emit>
-        <CNPJ>${CNPJ}</CNPJ>
-        <xNome>GALPEX ARMAZEN LOGISTICA E TRANSPORTES LTDA</xNome>
+        <CNPJ>${CTE_CONFIG.cnpjEmit}</CNPJ>
+        <xNome>${CTE_CONFIG.xNomeEmit}</xNome>
         <enderEmit>
-          <UF>SP</UF>
+          <UF>${CTE_CONFIG.UFIni}</UF>
         </enderEmit>
       </emit>
       <rem>
-        <CNPJ>${minuta.remetenteCNPJ}</CNPJ>
-        <xNome>GALPEX ARMAZEN LOGISTICA E TRANSPORTES LTDA</xNome>
+        <CNPJ>${remetenteCNPJ}</CNPJ>
+        <xNome>${CTE_CONFIG.xNomeEmit}</xNome>
         <enderReme>
-          <cMun>${minuta.cMunIni}</cMun>
-          <UF>SP</UF>
+          <cMun>${cMunIni}</cMun>
+          <UF>${CTE_CONFIG.UFIni}</UF>
         </enderReme>
       </rem>
       <dest>
-        <CNPJ>${minuta.destinatarioCNPJ}</CNPJ>
+        <CNPJ>${destinatarioCNPJ}</CNPJ>
         <xNome>DESTINATÁRIO TESTE</xNome>
         <enderDest>
-          <cMun>${minuta.cMunFim}</cMun>
+          <cMun>${cMunFim}</cMun>
         </enderDest>
       </dest>
       <vPrest>
@@ -157,13 +224,14 @@ async function gerarXML(req, res) {
         <infCarga>
           <vCarga>${minuta.valorCarga.toFixed(2)}</vCarga>
         </infCarga>
+        <chave>0</chave>
       </infCTeNorm>
     </infCte>
-    <xObs>Este é um XML fictício gerado para homologação com o sistema AverbePorto.</xObs>
+    <xObs>Este é um XML fictício gerado com os dados do usuário, apenas para homologação com o sistema AverbePorto.</xObs>
   </CTe>
 </cteProc>`;
 
-    // Salvar e enviar
+    // Garante que a pasta uploads exista
     const dirPath = path.join(__dirname, "../../uploads");
     if (!fs.existsSync(dirPath)) fs.mkdirSync(dirPath);
 
@@ -176,7 +244,6 @@ async function gerarXML(req, res) {
     res.status(500).json({ error: "Erro ao gerar XML" });
   }
 }
-
 
 module.exports = {
   criarMinuta,
