@@ -8,7 +8,7 @@ datasource db {
 }
 
 model material {
-  cod_material  Int     @id @default(autoincrement())
+  cod_material  Int    @id @default(autoincrement())
   pn_material   String
   lote          String
   data_validade String
@@ -16,11 +16,15 @@ model material {
   quantidade    Int
   nf_entrada    String
   observacao    String
-  Saida         saida[]
+
+  operadorId Int?
+  operador   operador? @relation(fields: [operadorId], references: [id])
+
+  Saida saida[]
 }
 
 model saida {
-  cod_saida     Int      @id @default(autoincrement())
+  cod_saida     Int     @id @default(autoincrement())
   cod_material  Int
   pn_material   String
   lote          String
@@ -29,8 +33,12 @@ model saida {
   nf_entrada    String
   observacao    String?
   quantidade    Int
-  status        String   @default("pendente") // pendente ou baixado
-  material      material @relation(fields: [cod_material], references: [cod_material])
+  status        String  @default("pendente")
+
+  operadorId Int?
+  operador   operador? @relation(fields: [operadorId], references: [id])
+
+  material material @relation(fields: [cod_material], references: [cod_material])
 }
 
 model posicao {
@@ -68,4 +76,15 @@ model Minuta {
   valorPrestacao   Float
   valorCarga       Float
   dhCriacao        DateTime @default(now())
+}
+
+model operador {
+  id       Int      @id @default(autoincrement())
+  nome     String
+  usuario  String   @unique
+  senha    String // já salvo criptografado
+  criadoEm DateTime @default(now())
+
+  materiais material[]
+  saidas    saida[]
 }

@@ -1,11 +1,17 @@
+// controllerSaida.js
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-// Listar todas saídas
+// Listar saídas
 const read = async (req, res) => {
     try {
         const saidas = await prisma.saida.findMany({
-            include: { material: true }
+            include: {
+                material: true,
+                operador: {
+                    select: { id: true, nome: true, usuario: true }
+                }
+            }
         });
         res.status(200).json(saidas);
     } catch (error) {
@@ -18,6 +24,19 @@ const read = async (req, res) => {
 const create = async (req, res) => {
     try {
         const data = req.body;
+        const operadorId = parseInt(data.operadorId);
+
+        const material = await prisma.material.findUnique({
+            where: { cod_material: data.cod_material }
+        });
+
+        if (!material) {
+            return res.status(404).json({ error: "Material não encontrado" });
+        }
+
+        if (material.quantidade < data.quantidade) {
+            return res.status(400).json({ error: "Estoque insuficiente" });
+        }
 
         // Atualiza estoque
         await prisma.material.update({
@@ -35,7 +54,8 @@ const create = async (req, res) => {
                 posicao: data.posicao,
                 nf_entrada: data.nf_entrada,
                 observacao: data.observacao,
-                quantidade: data.quantidade
+                quantidade: data.quantidade,
+                operadorId
             }
         });
 
@@ -46,28 +66,35 @@ const create = async (req, res) => {
     }
 };
 
-// Editar saída
+// Atualizar saída
 const update = async (req, res) => {
     try {
         const { cod_saida } = req.params;
-        const data = req.body;
+        const { quantidade, operadorId, ...resto } = req.body;
 
         const saidaAtual = await prisma.saida.findUnique({
             where: { cod_saida: parseInt(cod_saida) }
         });
 
-        // Ajusta estoque se quantidade mudou
-        const diferenca = data.quantidade - saidaAtual.quantidade;
-        if (diferenca !== 0) {
+        if (!saidaAtual) return res.status(404).json({ error: "Saída não encontrada" });
+
+        // se mudou a quantidade → ajustar estoque
+        const diff = quantidade - saidaAtual.quantidade;
+
+        if (diff !== 0) {
             await prisma.material.update({
                 where: { cod_material: saidaAtual.cod_material },
-                data: { quantidade: { decrement: -diferenca } }
+                data: { quantidade: { decrement: diff } }
             });
         }
 
         const saidaAtualizada = await prisma.saida.update({
             where: { cod_saida: parseInt(cod_saida) },
-            data
+            data: {
+                ...resto,
+                quantidade,
+                operadorId: parseInt(operadorId)
+            }
         });
 
         res.status(202).json(saidaAtualizada);
@@ -81,10 +108,16 @@ const update = async (req, res) => {
 const baixa = async (req, res) => {
     try {
         const { cod_saida } = req.params;
+        const { operadorId } = req.body;
+
         const saida = await prisma.saida.update({
             where: { cod_saida: parseInt(cod_saida) },
-            data: { status: "baixado" }
+            data: {
+                status: "baixado",
+                operadorId: parseInt(operadorId)
+            }
         });
+
         res.status(202).json(saida);
     } catch (error) {
         console.log(error);
@@ -92,20 +125,25 @@ const baixa = async (req, res) => {
     }
 };
 
+// Buscar saída por ID
 const readOne = async (req, res) => {
     try {
         const { cod_saida } = req.params;
         const saida = await prisma.saida.findUnique({
-            where: { cod_saida: parseInt(cod_saida) }
+            where: { cod_saida: parseInt(cod_saida) },
+            include: {
+                operador: { select: { id: true, nome: true } },
+                material: true
+            }
         });
 
         if (!saida) return res.status(404).json({ error: "Saída não encontrada" });
+
         res.json(saida);
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: "Erro ao buscar saída" });
     }
 };
-
 
 module.exports = { read, create, update, baixa, readOne };

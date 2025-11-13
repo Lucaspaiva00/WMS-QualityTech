@@ -1,56 +1,107 @@
+// controllerMaterial.js
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
+// Listar materiais (inclui operador)
 const read = async (req, res) => {
-    const material = await prisma.material.findMany();
-    return res.json(material)
-}
-
-const create = async (req, res) => {
     try {
-        const material = await prisma.material.create({
-            data: req.body
-        })
-
-        res.status(201).json(material).end()
+        const materiais = await prisma.material.findMany({
+            include: {
+                operador: {
+                    select: { id: true, nome: true, usuario: true }
+                }
+            }
+        });
+        return res.json(materiais);
     } catch (error) {
         console.log(error);
-
-        res.status(400).end()
+        res.status(500).json({ error: "Erro ao listar materiais" });
     }
+};
 
-}
+// Criar material
+const create = async (req, res) => {
+    try {
+        const {
+            pn_material,
+            lote,
+            data_validade,
+            posicao,
+            quantidade,
+            nf_entrada,
+            observacao,
+            operadorId
+        } = req.body;
 
+        const material = await prisma.material.create({
+            data: {
+                pn_material,
+                lote,
+                data_validade,
+                posicao,
+                quantidade,
+                nf_entrada,
+                observacao,
+                operadorId: parseInt(operadorId)
+            }
+        });
+
+        res.status(201).json(material);
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({ error: "Erro ao criar material" });
+    }
+};
+
+// Atualizar material
 const update = async (req, res) => {
     try {
         const { cod_material } = req.params;
-        const data = req.body;
+
+        const camposPermitidos = [
+            "pn_material", "lote", "data_validade", "posicao",
+            "quantidade", "nf_entrada", "observacao"
+        ];
+
+        // limpa req.body
+        const data = {};
+        for (let campo of camposPermitidos) {
+            if (req.body[campo] !== undefined) {
+                data[campo] = req.body[campo];
+            }
+        }
 
         const material = await prisma.material.update({
             where: { cod_material: parseInt(cod_material) },
             data
         });
 
-        res.status(202).json(material).end();
+        res.status(202).json(material);
     } catch (error) {
         console.log(error);
-        res.status(400).json({ error: "Erro ao atualizar material" }).end();
+        res.status(400).json({ error: "Erro ao atualizar material" });
     }
 };
 
-
+// Excluir material
 const del = async (req, res) => {
-    let material = await prisma.material.delete({
-        where: {
-            id: parseInt(req.params.id)
-        }
-    })
-    res.status(204).json(material).end()
-}
+    try {
+        const cod_material = parseInt(req.params.cod_material);
+
+        await prisma.material.delete({
+            where: { cod_material }
+        });
+
+        res.status(204).end();
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({ error: "Erro ao excluir material" });
+    }
+};
 
 module.exports = {
     read,
     create,
     update,
     del
-}
+};

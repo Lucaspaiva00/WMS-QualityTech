@@ -1,3 +1,17 @@
+// =========================
+// MATERIAL.JS AJUSTADO
+// =========================
+
+// Verifica login
+const operador = JSON.parse(localStorage.getItem("operador"));
+if (!operador) {
+  alert("Você precisa fazer login primeiro!");
+  window.location.href = "login.html";
+}
+
+// operador.id será enviado ao backend
+console.log("Operador logado:", operador.nome);
+
 const caixaForm = document.querySelector("#caixaForms");
 const uri = "http://localhost:3000/material";
 const entrada = document.querySelector("#entrada");
@@ -17,10 +31,9 @@ const carregarPosicoes = async (selectElement, valorSelecionado = "") => {
   });
 };
 
-// Inicializa posições
 carregarPosicoes(selectPosicao);
 
-// 🔹 Cadastro
+// 🔹 Cadastro de material
 caixaForm.addEventListener("submit", async e => {
   e.preventDefault();
   const data = {
@@ -30,7 +43,8 @@ caixaForm.addEventListener("submit", async e => {
     posicao: caixaForm.posicao.value,
     nf_entrada: caixaForm.nf_entrada.value,
     observacao: caixaForm.observacao.value,
-    quantidade: Number(caixaForm.quantidade.value)
+    quantidade: Number(caixaForm.quantidade.value),
+    operadorId: operador.id // <- **NOVO**
   };
 
   const res = await fetch(uri, {
@@ -78,7 +92,11 @@ function saida(material) {
     const quantidadeSaida = prompt("Informe a quantidade de saída:", material.quantidade);
     if (!quantidadeSaida) return;
 
-    const data = { ...material, quantidade: Number(quantidadeSaida) };
+    const data = {
+      ...material,
+      quantidade: Number(quantidadeSaida),
+      operadorId: operador.id // <- **NOVO**
+    };
 
     fetch("http://localhost:3000/saida", {
       method: "POST",
@@ -123,7 +141,8 @@ async function editaroperacao(botao) {
       posicao: selectModalPosicao.value,
       nf_entrada: form.nf_entrada.value,
       observacao: form.observacao.value,
-      quantidade: Number(form.quantidade.value)
+      quantidade: Number(form.quantidade.value),
+      operadorId: operador.id // <- **NOVO**
     };
 
     const res = await fetch(`${uri}/${cod_material}`, {
@@ -141,22 +160,3 @@ async function editaroperacao(botao) {
     }
   };
 }
-
-// Adiciona ordenação ao clicar nos cabeçalhos
-document.querySelectorAll("#tabela-materiais th").forEach(th => {
-  th.addEventListener("click", () => {
-    const tabela = th.closest("table");
-    const tbody = tabela.querySelector("tbody");
-    const index = Array.from(th.parentNode.children).indexOf(th);
-    const asc = th.classList.toggle("asc");
-
-    Array.from(tbody.querySelectorAll("tr"))
-      .sort((a, b) => {
-        const v1 = a.children[index].innerText.trim().toLowerCase();
-        const v2 = b.children[index].innerText.trim().toLowerCase();
-        return asc ? v1.localeCompare(v2) : v2.localeCompare(v1);
-      })
-      .forEach(tr => tbody.appendChild(tr));
-  });
-});
-
