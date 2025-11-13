@@ -65,6 +65,7 @@ async function excluirMinuta(req, res) {
 }
 
 // Gerar XML
+// Gerar XML
 async function gerarXML(req, res) {
   try {
     const { id } = req.params;
@@ -73,22 +74,50 @@ async function gerarXML(req, res) {
     });
     if (!minuta) return res.status(404).json({ error: "Minuta não encontrada" });
 
+    // Dados fixos obrigatórios
+    const cUF = "35"; // São Paulo
+    const CNPJ = "61575248000175";
+    const mod = "57"; // Modelo do CTe
+    const serie = "999";
+    const tpEmis = "1";
+
+    // Gerar cCT (código numérico aleatório)
+    const cCT = String(Math.floor(10000000 + Math.random() * 89999999));
+
+    // Gerar chave de acesso base (sem o dígito verificador ainda)
+    const chaveBase = `${cUF}${minuta.dhEmi.getFullYear().toString().slice(2)}${String(minuta.dhEmi.getMonth() + 1).padStart(2, "0")}${CNPJ}${mod}${serie}${minuta.nCT.padStart(9, "0")}${tpEmis}${cCT}`;
+
+    // Calcular dígito verificador (módulo 11)
+    const pesos = [2, 3, 4, 5, 6, 7, 8, 9];
+    let soma = 0;
+    let pesoIndex = 0;
+    for (let i = chaveBase.length - 1; i >= 0; i--) {
+      soma += parseInt(chaveBase[i]) * pesos[pesoIndex];
+      pesoIndex = (pesoIndex + 1) % pesos.length;
+    }
+    const resto = soma % 11;
+    const cDV = resto === 0 || resto === 1 ? 0 : 11 - resto;
+
+    // Monta ID completo
+    const chaveFinal = `${chaveBase}${cDV}`;
+    const Id = `CTe${chaveFinal}`;
+
     // XML fiel ao modelo da AverbePorto
     const xmlContent = `<?xml version="1.0" encoding="UTF-8"?>
 <cteProc xmlns="http://www.portalfiscal.inf.br/cte" versao="3.00">
   <CTe>
-    <infCte Id="CTe35251061575248000175949990000004451854322987" versao="3.00">
+    <infCte Id="${Id}" versao="3.00">
       <ide>
-        <cUF>35</cUF>
-        <cCT>${minuta.cct}</cCT>
+        <cUF>${cUF}</cUF>
+        <cCT>${cCT}</cCT>
         <CFOP>1234</CFOP>
-        <mod>94</mod>
-        <serie>999</serie>
+        <mod>${mod}</mod>
+        <serie>${serie}</serie>
         <nCT>${minuta.nCT}</nCT>
         <dhEmi>${minuta.dhEmi.toISOString()}</dhEmi>
         <tpImp>1</tpImp>
-        <tpEmis>1</tpEmis>
-        <cDV>7</cDV>
+        <tpEmis>${tpEmis}</tpEmis>
+        <cDV>${cDV}</cDV>
         <tpAmb>1</tpAmb>
         <procEmi>0</procEmi>
         <verProc>AverbePorto 1.7.2</verProc>
@@ -100,7 +129,7 @@ async function gerarXML(req, res) {
         <UFFim>PR</UFFim>
       </ide>
       <emit>
-        <CNPJ>61575248000175</CNPJ>
+        <CNPJ>${CNPJ}</CNPJ>
         <xNome>GALPEX ARMAZEN LOGISTICA E TRANSPORTES LTDA</xNome>
         <enderEmit>
           <UF>SP</UF>
@@ -110,7 +139,7 @@ async function gerarXML(req, res) {
         <CNPJ>${minuta.remetenteCNPJ}</CNPJ>
         <xNome>GALPEX ARMAZEN LOGISTICA E TRANSPORTES LTDA</xNome>
         <enderReme>
-          <cMun>3550308</cMun>
+          <cMun>${minuta.cMunIni}</cMun>
           <UF>SP</UF>
         </enderReme>
       </rem>
@@ -128,14 +157,13 @@ async function gerarXML(req, res) {
         <infCarga>
           <vCarga>${minuta.valorCarga.toFixed(2)}</vCarga>
         </infCarga>
-        <chave>0</chave>
       </infCTeNorm>
     </infCte>
-    <xObs>Este é um XML fictício gerado com os dados do usuário, apenas para homologação com o sistema AverbePorto.</xObs>
+    <xObs>Este é um XML fictício gerado para homologação com o sistema AverbePorto.</xObs>
   </CTe>
 </cteProc>`;
 
-    // Garante que a pasta uploads exista
+    // Salvar e enviar
     const dirPath = path.join(__dirname, "../../uploads");
     if (!fs.existsSync(dirPath)) fs.mkdirSync(dirPath);
 
@@ -148,6 +176,7 @@ async function gerarXML(req, res) {
     res.status(500).json({ error: "Erro ao gerar XML" });
   }
 }
+
 
 module.exports = {
   criarMinuta,

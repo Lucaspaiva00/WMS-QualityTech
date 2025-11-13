@@ -71,18 +71,9 @@
             color: #111;
         }
 
-        /* Cabeçalho */
-        .navbar {
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .topbar .nav-item img {
-            border-radius: 6px;
-        }
-
         /* Animação */
         .fade-in {
-            animation: fadeIn 0.5s ease forwards;
+            animation: fadeIn 0.6s ease forwards;
         }
 
         @keyframes fadeIn {
@@ -97,7 +88,7 @@
             }
         }
 
-        /* Título principal */
+        /* Cabeçalho */
         h1 {
             font-weight: 600;
             color: #111827;
@@ -117,7 +108,7 @@
             </a>
 
             <hr class="sidebar-divider my-0">
-            <li class="nav-item"><a class="nav-link" href="index.html"><i
+            <li class="nav-item active"><a class="nav-link" href="index.html"><i
                         class="fas fa-fw fa-tachometer-alt"></i><span>Dashboard</span></a></li>
 
             <hr class="sidebar-divider">
@@ -126,7 +117,7 @@
                         Material</span></a></li>
             <li class="nav-item"><a class="nav-link" href="saida.html"><i
                         class="fas fa-clipboard-list"></i><span>Relatório de Embarque</span></a></li>
-            <li class="nav-item active"><a class="nav-link" href="ordemembarque.html"><i
+            <li class="nav-item"><a class="nav-link" href="ordemembarque.html"><i
                         class="fas fa-truck-loading"></i><span>Ordem de Embarque</span></a></li>
             <li class="nav-item"><a class="nav-link" href="posicao.html"><i
                         class="fas fa-map-marked-alt"></i><span>Posições</span></a></li>
@@ -148,10 +139,10 @@
         <!-- Conteúdo -->
         <div id="content-wrapper" class="d-flex flex-column">
             <div id="content">
+                <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow-sm">
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button>
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3"><i
+                            class="fa fa-bars"></i></button>
 
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
@@ -168,14 +159,13 @@
                         </li>
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                data-toggle="dropdown">
                                 <span class="mr-2 d-none d-lg-inline text-gray-900 font-weight-bold">Opções</span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="login.html">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Sair
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>Sair
                                 </a>
                             </div>
                         </li>
@@ -188,7 +178,7 @@
 
                     <div class="row">
 
-                        <!-- Materiais -->
+                        <!-- Linha 1 -->
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card shadow h-100 py-3 px-3 border-left-primary">
                                 <div class="d-flex justify-content-between align-items-center">
@@ -196,14 +186,11 @@
                                         <div class="text-title text-primary mb-2">Materiais Cadastrados</div>
                                         <div id="material" class="value">0</div>
                                     </div>
-                                    <div class="icon-bg">
-                                        <i class="fas fa-box fa-2x text-primary"></i>
-                                    </div>
+                                    <div class="icon-bg"><i class="fas fa-box fa-2x text-primary"></i></div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Embarques -->
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card shadow h-100 py-3 px-3 border-left-success">
                                 <div class="d-flex justify-content-between align-items-center">
@@ -211,14 +198,11 @@
                                         <div class="text-title text-success mb-2">Ordens de Embarque</div>
                                         <div id="saida" class="value">0</div>
                                     </div>
-                                    <div class="icon-bg">
-                                        <i class="fas fa-truck fa-2x text-success"></i>
-                                    </div>
+                                    <div class="icon-bg"><i class="fas fa-truck fa-2x text-success"></i></div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Clientes -->
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card shadow h-100 py-3 px-3 border-left-warning">
                                 <div class="d-flex justify-content-between align-items-center">
@@ -226,14 +210,11 @@
                                         <div class="text-title text-warning mb-2">Clientes Ativos</div>
                                         <div id="clientes" class="value">0</div>
                                     </div>
-                                    <div class="icon-bg">
-                                        <i class="fas fa-user-friends fa-2x text-warning"></i>
-                                    </div>
+                                    <div class="icon-bg"><i class="fas fa-user-friends fa-2x text-warning"></i></div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Minutas -->
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card shadow h-100 py-3 px-3 border-left-info">
                                 <div class="d-flex justify-content-between align-items-center">
@@ -241,9 +222,58 @@
                                         <div class="text-title text-info mb-2">Minutas Geradas</div>
                                         <div id="minutas" class="value">0</div>
                                     </div>
-                                    <div class="icon-bg">
-                                        <i class="fas fa-file-alt fa-2x text-info"></i>
+                                    <div class="icon-bg"><i class="fas fa-file-alt fa-2x text-info"></i></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Linha 2 -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card shadow h-100 py-3 px-3 border-left-danger">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="text-title text-danger mb-2">Materiais a Vencer (30 dias)</div>
+                                        <div id="vencimento" class="value">0</div>
                                     </div>
+                                    <div class="icon-bg"><i class="fas fa-exclamation-triangle fa-2x text-danger"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card shadow h-100 py-3 px-3 border-left-secondary">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="text-title text-secondary mb-2">Carregamentos Pendentes</div>
+                                        <div id="pendentes" class="value">0</div>
+                                    </div>
+                                    <div class="icon-bg"><i class="fas fa-hourglass-half fa-2x text-secondary"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card shadow h-100 py-3 px-3 border-left-success">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="text-title text-success mb-2">Saídas de Hoje</div>
+                                        <div id="saidaHoje" class="value">0</div>
+                                    </div>
+                                    <div class="icon-bg"><i class="fas fa-calendar-day fa-2x text-success"></i></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card shadow h-100 py-3 px-3 border-left-dark">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="text-title text-dark mb-2">Último Operador Ativo</div>
+                                        <div id="operador" class="value" style="font-size:1.2rem;">—</div>
+                                    </div>
+                                    <div class="icon-bg"><i class="fas fa-user-check fa-2x text-dark"></i></div>
                                 </div>
                             </div>
                         </div>

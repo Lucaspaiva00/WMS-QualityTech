@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cteProc xmlns="http://www.portalfiscal.inf.br/cte" versao="3.00">
+  <CTe>
+    <infCte Id="CTe35251161575248000175579990000004451876133714" versao="3.00">
+      <ide>
+        <cUF>35</cUF>
+        <cCT>87613371</cCT>
+        <CFOP>1234</CFOP>
+        <mod>57</mod>
+        <serie>999</serie>
+        <nCT>445</nCT>
+        <dhEmi>2025-11-13T12:55:00.000Z</dhEmi>
+        <tpImp>1</tpImp>
+        <tpEmis>1</tpEmis>
+        <cDV>4</cDV>
+        <tpAmb>1</tpAmb>
+        <procEmi>0</procEmi>
+        <verProc>AverbePorto 1.7.2</verProc>
+        <modal>01</modal>
+        <tpServ>0</tpServ>
+        <cMunIni>12345</cMunIni>
+        <UFIni>SP</UFIni>
+        <cMunFim>1234</cMunFim>
+        <UFFim>PR</UFFim>
+      </ide>
+      <emit>
+        <CNPJ>61575248000175</CNPJ>
+        <xNome>GALPEX ARMAZEN LOGISTICA E TRANSPORTES LTDA</xNome>
+        <enderEmit>
+          <UF>SP</UF>
+        </enderEmit>
+      </emit>
+      <rem>
+        <CNPJ>1234</CNPJ>
+        <xNome>GALPEX ARMAZEN LOGISTICA E TRANSPORTES LTDA</xNome>
+        <enderReme>
+          <cMun>12345</cMun>
+          <UF>SP</UF>
+        </enderReme>
+      </rem>
+      <dest>
+        <CNPJ>123</CNPJ>
+        <xNome>DESTINATÁRIO TESTE</xNome>
+        <enderDest>
+          <cMun>1234</cMun>
+        </enderDest>
+      </dest>
+      <vPrest>
+        <vTPrest>1234567890.00</vTPrest>
+      </vPrest>
+      <infCTeNorm>
+        <infCarga>
+          <vCarga>12345.00</vCarga>
+        </infCarga>
+      </infCTeNorm>
+    </infCte>
+    <xObs>Este é um XML fictício gerado para homologação com o sistema AverbePorto.</xObs>
+  </CTe>
+</cteProc>
