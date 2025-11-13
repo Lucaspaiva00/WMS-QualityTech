@@ -2,7 +2,7 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-// Listar saídas
+// Listar saídas (inclui operador e material)
 const read = async (req, res) => {
     try {
         const saidas = await prisma.saida.findMany({
@@ -11,12 +11,13 @@ const read = async (req, res) => {
                 operador: {
                     select: { id: true, nome: true, usuario: true }
                 }
-            }
+            },
+            orderBy: { cod_saida: 'desc' }
         });
-        res.status(200).json(saidas);
+        return res.status(200).json(saidas);
     } catch (error) {
         console.log(error);
-        res.status(400).json({ error: "Erro ao listar saídas" });
+        return res.status(400).json({ error: "Erro ao listar saídas" });
     }
 };
 
@@ -25,6 +26,7 @@ const create = async (req, res) => {
     try {
         const data = req.body;
         const operadorId = parseInt(data.operadorId);
+        const qtdSaida = Number(data.quantidade);
 
         const material = await prisma.material.findUnique({
             where: { cod_material: data.cod_material }
@@ -34,14 +36,14 @@ const create = async (req, res) => {
             return res.status(404).json({ error: "Material não encontrado" });
         }
 
-        if (material.quantidade < data.quantidade) {
+        if (material.quantidade < qtdSaida) {
             return res.status(400).json({ error: "Estoque insuficiente" });
         }
 
         // Atualiza estoque
         await prisma.material.update({
             where: { cod_material: data.cod_material },
-            data: { quantidade: { decrement: data.quantidade } }
+            data: { quantidade: { decrement: qtdSaida } }
         });
 
         // Cria registro de saída
@@ -54,15 +56,16 @@ const create = async (req, res) => {
                 posicao: data.posicao,
                 nf_entrada: data.nf_entrada,
                 observacao: data.observacao,
-                quantidade: data.quantidade,
+                quantidade: qtdSaida,
+                status: "pendente",
                 operadorId
             }
         });
 
-        res.status(201).json(saida);
+        return res.status(201).json(saida);
     } catch (error) {
         console.log(error);
-        res.status(400).json({ error: "Erro ao registrar saída" });
+        return res.status(400).json({ error: "Erro ao registrar saída" });
     }
 };
 
@@ -72,15 +75,18 @@ const update = async (req, res) => {
         const { cod_saida } = req.params;
         const { quantidade, operadorId, ...resto } = req.body;
 
+        const qtdNova = Number(quantidade);
+
         const saidaAtual = await prisma.saida.findUnique({
             where: { cod_saida: parseInt(cod_saida) }
         });
 
-        if (!saidaAtual) return res.status(404).json({ error: "Saída não encontrada" });
+        if (!saidaAtual) {
+            return res.status(404).json({ error: "Saída não encontrada" });
+        }
 
-        // se mudou a quantidade → ajustar estoque
-        const diff = quantidade - saidaAtual.quantidade;
-
+        // Ajuste de estoque se quantidade mudou
+        const diff = qtdNova - saidaAtual.quantidade;
         if (diff !== 0) {
             await prisma.material.update({
                 where: { cod_material: saidaAtual.cod_material },
@@ -92,15 +98,15 @@ const update = async (req, res) => {
             where: { cod_saida: parseInt(cod_saida) },
             data: {
                 ...resto,
-                quantidade,
+                quantidade: qtdNova,
                 operadorId: parseInt(operadorId)
             }
         });
 
-        res.status(202).json(saidaAtualizada);
+        return res.status(202).json(saidaAtualizada);
     } catch (error) {
         console.log(error);
-        res.status(400).json({ error: "Erro ao atualizar saída" });
+        return res.status(400).json({ error: "Erro ao atualizar saída" });
     }
 };
 
@@ -118,10 +124,10 @@ const baixa = async (req, res) => {
             }
         });
 
-        res.status(202).json(saida);
+        return res.status(202).json(saida);
     } catch (error) {
         console.log(error);
-        res.status(400).json({ error: "Erro ao dar baixa" });
+        return res.status(400).json({ error: "Erro ao dar baixa" });
     }
 };
 
@@ -137,12 +143,14 @@ const readOne = async (req, res) => {
             }
         });
 
-        if (!saida) return res.status(404).json({ error: "Saída não encontrada" });
+        if (!saida) {
+            return res.status(404).json({ error: "Saída não encontrada" });
+        }
 
-        res.json(saida);
+        return res.status(200).json(saida);
     } catch (error) {
         console.log(error);
-        res.status(500).json({ error: "Erro ao buscar saída" });
+        return res.status(500).json({ error: "Erro ao buscar saída" });
     }
 };
 

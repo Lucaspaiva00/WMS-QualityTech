@@ -1,28 +1,27 @@
-// =========================
-// MATERIAL.JS AJUSTADO
-// =========================
+// scriptmaterial.js
 
 // Verifica login
-const operador = JSON.parse(localStorage.getItem("operador"));
+const operador = JSON.parse(localStorage.getItem("OPERADOR_LOGADO"));
 if (!operador) {
-  alert("Você precisa fazer login primeiro!");
+  alert("Você precisa fazer login!");
   window.location.href = "login.html";
 }
 
-// operador.id será enviado ao backend
 console.log("Operador logado:", operador.nome);
 
 const caixaForm = document.querySelector("#caixaForms");
-const uri = "http://localhost:3000/material";
+const uriMaterial = "http://localhost:3000/material";
+const uriSaida = "http://localhost:3000/saida";
 const entrada = document.querySelector("#entrada");
 const selectPosicao = document.querySelector("#posicao");
 
-// 🔹 Carregar posições
+// --------- Carregar posições ----------
 const carregarPosicoes = async (selectElement, valorSelecionado = "") => {
-  selectElement.innerHTML = '<option value="" disabled selected>Selecione a posição</option>';
+  selectElement.innerHTML =
+    '<option value="" disabled selected>Selecione a posição</option>';
   const resp = await fetch("http://localhost:3000/posicao");
   const posicoes = await resp.json();
-  posicoes.forEach(p => {
+  posicoes.forEach((p) => {
     const option = document.createElement("option");
     option.value = p.posicao;
     option.text = p.posicao;
@@ -33,8 +32,8 @@ const carregarPosicoes = async (selectElement, valorSelecionado = "") => {
 
 carregarPosicoes(selectPosicao);
 
-// 🔹 Cadastro de material
-caixaForm.addEventListener("submit", async e => {
+// --------- Cadastro de material ----------
+caixaForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const data = {
     pn_material: caixaForm.pn_material.value,
@@ -44,29 +43,29 @@ caixaForm.addEventListener("submit", async e => {
     nf_entrada: caixaForm.nf_entrada.value,
     observacao: caixaForm.observacao.value,
     quantidade: Number(caixaForm.quantidade.value),
-    operadorId: operador.id // <- **NOVO**
+    operadorId: operador.id,
   };
 
-  const res = await fetch(uri, {
+  const res = await fetch(uriMaterial, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data)
+    body: JSON.stringify(data),
   });
 
   if (res.status === 201) {
-    carregarMateriais();
+    await carregarMateriais();
     caixaForm.reset();
   } else {
     alert("Erro ao inserir material!");
   }
 });
 
-// 🔹 Listar materiais
+// --------- Listar materiais ----------
 const carregarMateriais = async () => {
-  const resp = await fetch(uri);
+  const resp = await fetch(uriMaterial);
   const materiais = await resp.json();
   entrada.innerHTML = "";
-  materiais.forEach(e => {
+  materiais.forEach((e) => {
     entrada.innerHTML += `
       <tr data-id="${e.cod_material}">
         <td>${e.pn_material}</td>
@@ -74,11 +73,13 @@ const carregarMateriais = async () => {
         <td>${e.data_validade}</td>
         <td>${e.posicao}</td>
         <td>${e.nf_entrada}</td>
-        <td>${e.observacao}</td>
+        <td>${e.observacao || ""}</td>
         <td>${e.quantidade}</td>
         <td>
           <button class='btn btn-primary btn-sm' onClick='editaroperacao(this)'>Editar</button>
-          <button class='btn btn-danger btn-sm' onClick='saida(${JSON.stringify(e)})'>Saída</button>
+          <button class='btn btn-danger btn-sm' onClick='saida(${JSON.stringify(
+      e
+    )})'>Saída</button>
         </td>
       </tr>`;
   });
@@ -86,34 +87,37 @@ const carregarMateriais = async () => {
 
 carregarMateriais();
 
-// 🔹 Registrar saída
+// --------- Registrar saída a partir do material ----------
 function saida(material) {
-  if (confirm("Confirmar a saída do material?")) {
-    const quantidadeSaida = prompt("Informe a quantidade de saída:", material.quantidade);
-    if (!quantidadeSaida) return;
+  if (!confirm("Confirmar a saída do material?")) return;
 
-    const data = {
-      ...material,
-      quantidade: Number(quantidadeSaida),
-      operadorId: operador.id // <- **NOVO**
-    };
+  const quantidadeSaida = prompt(
+    "Informe a quantidade de saída:",
+    material.quantidade
+  );
+  if (!quantidadeSaida) return;
 
-    fetch("http://localhost:3000/saida", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
-    }).then(res => {
-      if (res.status === 201) {
-        alert("Saída registrada com sucesso!");
-        window.location.href = "ordemembarque.html";
-      } else {
-        alert("Erro ao registrar saída.");
-      }
-    });
-  }
+  const data = {
+    ...material,
+    quantidade: Number(quantidadeSaida),
+    operadorId: operador.id,
+  };
+
+  fetch(uriSaida, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  }).then((res) => {
+    if (res.status === 201) {
+      alert("Saída registrada com sucesso!");
+      window.location.href = "ordemembarque.html";
+    } else {
+      res.json().then((b) => alert(b.error || "Erro ao registrar saída."));
+    }
+  });
 }
 
-// 🔹 Editar material via modal
+// --------- Editar material via modal ----------
 async function editaroperacao(botao) {
   const linha = botao.closest("tr");
   const cod_material = linha.getAttribute("data-id");
@@ -132,7 +136,7 @@ async function editaroperacao(botao) {
 
   modal.modal("show");
 
-  form.onsubmit = async e => {
+  form.onsubmit = async (e) => {
     e.preventDefault();
     const atualizado = {
       pn_material: form.pn_material.value,
@@ -142,13 +146,12 @@ async function editaroperacao(botao) {
       nf_entrada: form.nf_entrada.value,
       observacao: form.observacao.value,
       quantidade: Number(form.quantidade.value),
-      operadorId: operador.id // <- **NOVO**
     };
 
-    const res = await fetch(`${uri}/${cod_material}`, {
+    const res = await fetch(`${uriMaterial}/${cod_material}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(atualizado)
+      body: JSON.stringify(atualizado),
     });
 
     if (res.status === 202) {

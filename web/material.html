@@ -69,13 +69,6 @@
 </head>
 
 <body>
-
-    <!-- VERIFICA LOGIN -->
-    <script>
-        const operador = JSON.parse(localStorage.getItem("operador"));
-        if (!operador) { alert("Você precisa fazer login!"); window.location.href = "login.html"; }
-    </script>
-
     <div id="wrapper">
 
         <!-- Sidebar -->
@@ -150,11 +143,6 @@
                         </li>
                     </ul>
                 </nav>
-
-                <script>
-                    document.getElementById("nomeOperador").innerText = operador?.nome ?? "—";
-                    function logout() { localStorage.removeItem("operador"); window.location.href = "login.html"; }
-                </script>
 
                 <!-- CONTEÚDO -->
                 <div class="container-fluid">

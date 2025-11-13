@@ -45,8 +45,9 @@ routes.get("/minuta", minuta.listarMinutas);
 routes.delete("/minuta/:id", minuta.excluirMinuta);
 routes.get("/minuta/gerarxml/:id", minuta.gerarXML);
 
-routes.post("/operador", operador.criarOperador);
-routes.post("/login", operador.login);
+routes.get('/operadores', operador.listarOperadores);
+routes.post('/operadores', operador.criarOperador);
+routes.post('/login', operador.loginOperador);
 
 
 module.exports = routes

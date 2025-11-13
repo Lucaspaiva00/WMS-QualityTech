@@ -12,10 +12,10 @@ const read = async (req, res) => {
                 }
             }
         });
-        return res.json(materiais);
+        return res.status(200).json(materiais);
     } catch (error) {
         console.log(error);
-        res.status(500).json({ error: "Erro ao listar materiais" });
+        return res.status(500).json({ error: "Erro ao listar materiais" });
     }
 };
 
@@ -39,17 +39,17 @@ const create = async (req, res) => {
                 lote,
                 data_validade,
                 posicao,
-                quantidade,
+                quantidade: Number(quantidade),
                 nf_entrada,
                 observacao,
                 operadorId: parseInt(operadorId)
             }
         });
 
-        res.status(201).json(material);
+        return res.status(201).json(material);
     } catch (error) {
         console.log(error);
-        res.status(400).json({ error: "Erro ao criar material" });
+        return res.status(400).json({ error: "Erro ao criar material" });
     }
 };
 
@@ -59,15 +59,21 @@ const update = async (req, res) => {
         const { cod_material } = req.params;
 
         const camposPermitidos = [
-            "pn_material", "lote", "data_validade", "posicao",
-            "quantidade", "nf_entrada", "observacao"
+            "pn_material",
+            "lote",
+            "data_validade",
+            "posicao",
+            "quantidade",
+            "nf_entrada",
+            "observacao"
         ];
 
-        // limpa req.body
         const data = {};
-        for (let campo of camposPermitidos) {
+        for (const campo of camposPermitidos) {
             if (req.body[campo] !== undefined) {
-                data[campo] = req.body[campo];
+                data[campo] = campo === "quantidade"
+                    ? Number(req.body[campo])
+                    : req.body[campo];
             }
         }
 
@@ -76,10 +82,10 @@ const update = async (req, res) => {
             data
         });
 
-        res.status(202).json(material);
+        return res.status(202).json(material);
     } catch (error) {
         console.log(error);
-        res.status(400).json({ error: "Erro ao atualizar material" });
+        return res.status(400).json({ error: "Erro ao atualizar material" });
     }
 };
 
@@ -87,21 +93,14 @@ const update = async (req, res) => {
 const del = async (req, res) => {
     try {
         const cod_material = parseInt(req.params.cod_material);
-
         await prisma.material.delete({
             where: { cod_material }
         });
-
-        res.status(204).end();
+        return res.status(204).end();
     } catch (error) {
         console.log(error);
-        res.status(400).json({ error: "Erro ao excluir material" });
+        return res.status(400).json({ error: "Erro ao excluir material" });
     }
 };
 
-module.exports = {
-    read,
-    create,
-    update,
-    del
-};
+module.exports = { read, create, update, del };
