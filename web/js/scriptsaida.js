@@ -110,3 +110,88 @@ function darBaixa(cod_saida) {
 }
 
 // ---- Editar saída (se já tiver modal, mantém a lógica antiga) ----
+// ===== EDITAR SAÍDA (MODAL) =====
+let __EDITANDO_SAIDA_ID__ = null;
+
+async function editarSaida(cod_saida) {
+    try {
+        __EDITANDO_SAIDA_ID__ = cod_saida;
+
+        const res = await fetch(`${uriSaida}/${cod_saida}`);
+        if (!res.ok) {
+            const b = await res.json().catch(() => ({}));
+            alert(b.error || "Erro ao buscar saída para editar.");
+            return;
+        }
+
+        const e = await res.json();
+
+        const form = document.getElementById("formEditarSaida");
+        if (!form) {
+            alert("Form do modal não encontrado (#formEditarSaida).");
+            return;
+        }
+
+        form.pn_material.value = e.pn_material ?? "";
+        form.lote.value = e.lote ?? "";
+        form.data_validade.value = (e.data_validade || "").slice(0, 10); // yyyy-mm-dd
+        form.posicao.value = e.posicao ?? "";
+        form.nf_entrada.value = e.nf_entrada ?? "";
+        form.quantidade.value = e.quantidade ?? 0;
+        form.observacao.value = e.observacao ?? "";
+        form.status.value = e.status ?? "pendente";
+
+        // abre modal (Bootstrap 4)
+        $("#modalEditarSaida").modal("show");
+    } catch (err) {
+        console.error(err);
+        alert("Erro ao abrir edição.");
+    }
+}
+
+// submit do modal
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("formEditarSaida");
+    if (!form) return;
+
+    form.addEventListener("submit", async (ev) => {
+        ev.preventDefault();
+        if (!__EDITANDO_SAIDA_ID__) return;
+
+        const payload = {
+            pn_material: form.pn_material.value.trim(),
+            lote: form.lote.value.trim(),
+            data_validade: form.data_validade.value, // "yyyy-mm-dd"
+            posicao: form.posicao.value.trim(),
+            nf_entrada: form.nf_entrada.value.trim(),
+            quantidade: Number(form.quantidade.value),
+            observacao: form.observacao.value.trim(),
+            status: form.status.value.trim(),
+            operadorId: operador.id, // mantém registro do operador que editou
+        };
+
+        try {
+            const res = await fetch(`${uriSaida}/${__EDITANDO_SAIDA_ID__}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+            });
+
+            if (res.status === 202 || res.ok) {
+                $("#modalEditarSaida").modal("hide");
+                await carregarSaidas(); // atualiza cards sem reload
+                __EDITANDO_SAIDA_ID__ = null;
+            } else {
+                const b = await res.json().catch(() => ({}));
+                alert(b.error || "Erro ao salvar alterações.");
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Erro de comunicação ao salvar.");
+        }
+    });
+});
+
+// garante que as funções existam no escopo global quando usadas no onclick
+window.editarSaida = editarSaida;
+window.darBaixa = darBaixa;
