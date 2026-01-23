@@ -1,36 +1,45 @@
 // scriptsaida.js
 
+// ===== CONFIG =====
+const API_BASE = "http://localhost:3000"; // em produção troque pelo domínio/ip do servidor
+const uriSaida = `${API_BASE}/saida`;
+
+// ===== LOGIN =====
 const operador = JSON.parse(localStorage.getItem("OPERADOR_LOGADO"));
 if (!operador) {
     alert("Você precisa fazer login!");
     window.location.href = "login.html";
 }
 
-console.log("Operador logado:", operador.nome);
-
-const uriSaida = "http://localhost:3000/saida";
+// ===== STATE =====
 let __ULTIMAS_SAIDAS__ = [];
+let __EDITANDO_SAIDA_ID__ = null;
 
+// ===== ELEMENTS =====
 const tabela = document.querySelector("#tabela-saida");
-const cardsWrap = document.querySelector("#cards-saida");
+const btnExportar = document.querySelector("#btn-exportar");
 
 document.addEventListener("DOMContentLoaded", () => {
     carregarSaidas().then(() => {
-        if (tabela) {
-            prepararOrdenacao && prepararOrdenacao();
-            prepararExportacaoXLSX && prepararExportacaoXLSX();
-        }
+        prepararOrdenacao();
+        prepararExportacaoXLSX();
     });
+
+    // submit modal
+    const form = document.getElementById("formEditarSaida");
+    if (form) {
+        form.addEventListener("submit", salvarEdicaoModal);
+    }
 });
 
+// ===== LISTAR =====
 async function carregarSaidas() {
     try {
         const res = await fetch(uriSaida);
+        if (!res.ok) throw new Error("Falha ao buscar /saida");
         const saidas = await res.json();
-        __ULTIMAS_SAIDAS__ = saidas;
-
-        if (tabela) renderTabela(saidas);
-        if (cardsWrap) renderCards(saidas);
+        __ULTIMAS_SAIDAS__ = Array.isArray(saidas) ? saidas : [];
+        renderTabela(__ULTIMAS_SAIDAS__);
     } catch (e) {
         console.error(e);
         alert("Erro ao carregar as saídas");
@@ -40,79 +49,58 @@ async function carregarSaidas() {
 function renderTabela(saidas) {
     const tbody = tabela.querySelector("tbody");
     tbody.innerHTML = "";
+
     for (const e of saidas) {
+        const isBaixado = (e.status || "").toLowerCase() === "baixado";
+
         tbody.innerHTML += `
-      <tr data-id="${e.cod_saida}">
-        <td>${e.pn_material}</td>
-        <td>${e.lote}</td>
-        <td>${e.data_validade}</td>
-        <td>${e.posicao}</td>
-        <td>${e.nf_entrada}</td>
-        <td>${e.observacao || ""}</td>
-        <td>${e.quantidade}</td>
-        <td>${e.status}</td>
-      </tr>`;
+        <tr data-id="${e.cod_saida}">
+            <td>${e.pn_material ?? ""}</td>
+            <td>${e.lote ?? ""}</td>
+            <td>${(e.data_validade ?? "").toString().slice(0, 10)}</td>
+            <td>${e.posicao ?? ""}</td>
+            <td>${e.nf_entrada ?? ""}</td>
+            <td>${e.observacao ?? ""}</td>
+            <td>${e.quantidade ?? 0}</td>
+            <td>${e.status ?? ""}</td>
+            <td>
+                <div class="acao-wrap">
+                    <button class="btn btn-danger btn-sm" onclick="editarSaida(${e.cod_saida})">
+                        Editar
+                    </button>
+                    <button class="btn btn-danger btn-sm" onclick="darBaixa(${e.cod_saida})" ${isBaixado ? "disabled" : ""}>
+                        Dar Baixa
+                    </button>
+                </div>
+            </td>
+        </tr>`;
     }
 }
 
-// ---- Ordem de Embarque (cards) + NOME DO OPERADOR ----
-function renderCards(saidas) {
-    cardsWrap.innerHTML = "";
-    if (!saidas.length) {
-        cardsWrap.innerHTML = `
-      <div class="col-12">
-        <div class="alert alert-light border">Nenhum item para embarque.</div>
-      </div>`;
-        return;
-    }
-
-    saidas.forEach((e) => {
-        const badge = e.status === "pendente" ? "badge-warning" : "badge-success";
-        const nomeOperador = e.operador ? e.operador.nome : "—";
-
-        cardsWrap.innerHTML += `
-      <div class="col-sm-6 col-lg-4 mb-3">
-        <div class="card-item p-3 h-100 d-flex">
-          <div class="mb-2">
-            <h5 class="mb-1">PN: ${e.pn_material}</h5>
-            <span class="badge ${badge}">${e.status}</span>
-            <div class="small text-muted">Posição: <b>${e.posicao}</b></div>
-            <div class="small text-muted">Quantidade: <b>${e.quantidade}</b></div>
-            <div class="small text-muted">NF: <b>${e.nf_entrada}</b></div>
-            <div class="small text-muted">Validade: <b>${e.data_validade}</b></div>
-            <div class="small text-muted">Obs: <b>${e.observacao || ""}</b></div>
-            <div class="small text-muted">Operador: <b>${nomeOperador}</b></div>
-          </div>
-
-          <div class="mt-auto">
-            <button class="btn btn-primary btn-sm mr-2" onclick="editarSaida(${e.cod_saida})">Editar</button>
-            <button class="btn btn-success btn-sm" onclick="darBaixa(${e.cod_saida})">Dar Baixa</button>
-          </div>
-        </div>
-      </div>`;
-    });
-}
-
-// ---- Dar baixa ----
-function darBaixa(cod_saida) {
+// ===== BAIXA =====
+async function darBaixa(cod_saida) {
     if (!confirm("Confirma a baixa deste material?")) return;
 
-    fetch(`${uriSaida}/baixa/${cod_saida}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ operadorId: operador.id }),
-    })
-        .then((res) => {
-            if (res.status === 202) location.reload();
-            else res.json().then((b) => alert(b.error || "Erro ao dar baixa"));
-        })
-        .catch(() => alert("Erro de comunicação ao dar baixa."));
+    try {
+        const res = await fetch(`${uriSaida}/baixa/${cod_saida}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ operadorId: operador.id }),
+        });
+
+        if (res.status === 202 || res.ok) {
+            await carregarSaidas();
+        } else {
+            const b = await res.json().catch(() => ({}));
+            alert(b.error || "Erro ao dar baixa");
+        }
+    } catch (err) {
+        console.error(err);
+        alert("Erro de comunicação ao dar baixa.");
+    }
 }
 
-// ---- Editar saída (se já tiver modal, mantém a lógica antiga) ----
-// ===== EDITAR SAÍDA (MODAL) =====
-let __EDITANDO_SAIDA_ID__ = null;
-
+// ===== EDITAR (abre modal) =====
 async function editarSaida(cod_saida) {
     try {
         __EDITANDO_SAIDA_ID__ = cod_saida;
@@ -125,23 +113,18 @@ async function editarSaida(cod_saida) {
         }
 
         const e = await res.json();
-
         const form = document.getElementById("formEditarSaida");
-        if (!form) {
-            alert("Form do modal não encontrado (#formEditarSaida).");
-            return;
-        }
+        if (!form) return alert("Form do modal não encontrado (#formEditarSaida).");
 
         form.pn_material.value = e.pn_material ?? "";
         form.lote.value = e.lote ?? "";
-        form.data_validade.value = (e.data_validade || "").slice(0, 10); // yyyy-mm-dd
+        form.data_validade.value = (e.data_validade || "").slice(0, 10);
         form.posicao.value = e.posicao ?? "";
         form.nf_entrada.value = e.nf_entrada ?? "";
         form.quantidade.value = e.quantidade ?? 0;
         form.observacao.value = e.observacao ?? "";
         form.status.value = e.status ?? "pendente";
 
-        // abre modal (Bootstrap 4)
         $("#modalEditarSaida").modal("show");
     } catch (err) {
         console.error(err);
@@ -149,49 +132,118 @@ async function editarSaida(cod_saida) {
     }
 }
 
-// submit do modal
-document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("formEditarSaida");
-    if (!form) return;
+async function salvarEdicaoModal(ev) {
+    ev.preventDefault();
+    if (!__EDITANDO_SAIDA_ID__) return;
 
-    form.addEventListener("submit", async (ev) => {
-        ev.preventDefault();
-        if (!__EDITANDO_SAIDA_ID__) return;
+    const form = ev.currentTarget;
 
-        const payload = {
-            pn_material: form.pn_material.value.trim(),
-            lote: form.lote.value.trim(),
-            data_validade: form.data_validade.value, // "yyyy-mm-dd"
-            posicao: form.posicao.value.trim(),
-            nf_entrada: form.nf_entrada.value.trim(),
-            quantidade: Number(form.quantidade.value),
-            observacao: form.observacao.value.trim(),
-            status: form.status.value.trim(),
-            operadorId: operador.id, // mantém registro do operador que editou
-        };
+    const payload = {
+        pn_material: form.pn_material.value.trim(),
+        lote: form.lote.value.trim(),
+        data_validade: form.data_validade.value,
+        posicao: form.posicao.value.trim(),
+        nf_entrada: form.nf_entrada.value.trim(),
+        quantidade: Number(form.quantidade.value),
+        observacao: form.observacao.value.trim(),
+        status: form.status.value.trim(),
+        operadorId: operador.id,
+    };
 
-        try {
-            const res = await fetch(`${uriSaida}/${__EDITANDO_SAIDA_ID__}`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload),
+    try {
+        const res = await fetch(`${uriSaida}/${__EDITANDO_SAIDA_ID__}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+        });
+
+        if (res.status === 202 || res.ok) {
+            $("#modalEditarSaida").modal("hide");
+            __EDITANDO_SAIDA_ID__ = null;
+            await carregarSaidas();
+        } else {
+            const b = await res.json().catch(() => ({}));
+            alert(b.error || "Erro ao salvar alterações.");
+        }
+    } catch (err) {
+        console.error(err);
+        alert("Erro de comunicação ao salvar.");
+    }
+}
+
+// ===== EXPORT XLSX (SheetJS) =====
+function prepararExportacaoXLSX() {
+    if (!btnExportar) return;
+
+    btnExportar.addEventListener("click", () => {
+        if (!__ULTIMAS_SAIDAS__.length) {
+            alert("Não há dados para exportar.");
+            return;
+        }
+
+        // Cabeçalhos no padrão da tabela
+        const data = __ULTIMAS_SAIDAS__.map((e) => ({
+            "PN MATERIAL": e.pn_material ?? "",
+            "LOTE (FIFO)": e.lote ?? "",
+            "DATA DE VALIDADE": (e.data_validade ?? "").toString().slice(0, 10),
+            "POSIÇÃO": e.posicao ?? "",
+            "NF ENTRADA": e.nf_entrada ?? "",
+            "OBSERVAÇÃO": e.observacao ?? "",
+            "QUANTIDADE": e.quantidade ?? 0,
+            "STATUS": e.status ?? "",
+        }));
+
+        const ws = XLSX.utils.json_to_sheet(data);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Relatorio_Embarque");
+
+        const hoje = new Date().toISOString().slice(0, 10);
+        XLSX.writeFile(wb, `relatorio-embarque-${hoje}.xlsx`);
+    });
+}
+
+// ===== ORDENAÇÃO (clicar nos TH) =====
+function prepararOrdenacao() {
+    if (!tabela) return;
+
+    const headers = tabela.querySelectorAll("thead th[data-key]");
+    const state = { key: null, dir: "asc" };
+
+    headers.forEach((th) => {
+        th.addEventListener("click", () => {
+            const key = th.getAttribute("data-key");
+            if (!key) return;
+
+            // toggle direção
+            if (state.key === key) state.dir = state.dir === "asc" ? "desc" : "asc";
+            else {
+                state.key = key;
+                state.dir = "asc";
+            }
+
+            // limpar indicadores
+            headers.forEach((h) => (h.querySelector(".th-indicator").textContent = ""));
+            th.querySelector(".th-indicator").textContent = state.dir === "asc" ? "▲" : "▼";
+
+            const sorted = [...__ULTIMAS_SAIDAS__].sort((a, b) => {
+                const va = (a?.[key] ?? "").toString().toLowerCase();
+                const vb = (b?.[key] ?? "").toString().toLowerCase();
+
+                // se for número
+                const na = Number(va), nb = Number(vb);
+                const ambosNumeros = !Number.isNaN(na) && !Number.isNaN(nb) && va !== "" && vb !== "";
+                if (ambosNumeros) return state.dir === "asc" ? na - nb : nb - na;
+
+                if (va < vb) return state.dir === "asc" ? -1 : 1;
+                if (va > vb) return state.dir === "asc" ? 1 : -1;
+                return 0;
             });
 
-            if (res.status === 202 || res.ok) {
-                $("#modalEditarSaida").modal("hide");
-                await carregarSaidas(); // atualiza cards sem reload
-                __EDITANDO_SAIDA_ID__ = null;
-            } else {
-                const b = await res.json().catch(() => ({}));
-                alert(b.error || "Erro ao salvar alterações.");
-            }
-        } catch (err) {
-            console.error(err);
-            alert("Erro de comunicação ao salvar.");
-        }
+            renderTabela(sorted);
+        });
     });
-});
+}
 
-// garante que as funções existam no escopo global quando usadas no onclick
+// ===== GLOBALS =====
 window.editarSaida = editarSaida;
 window.darBaixa = darBaixa;
