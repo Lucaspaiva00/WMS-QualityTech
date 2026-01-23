@@ -111,6 +111,7 @@ const update = async (req, res) => {
 };
 
 // Dar baixa
+// Dar baixa
 const baixa = async (req, res) => {
     try {
         const { cod_saida } = req.params;
@@ -120,6 +121,7 @@ const baixa = async (req, res) => {
             where: { cod_saida: parseInt(cod_saida) },
             data: {
                 status: "baixado",
+                baixadoAt: new Date(),      // ✅ novo
                 operadorId: parseInt(operadorId)
             }
         });
@@ -130,6 +132,7 @@ const baixa = async (req, res) => {
         return res.status(400).json({ error: "Erro ao dar baixa" });
     }
 };
+
 
 // Buscar saída por ID
 const readOne = async (req, res) => {

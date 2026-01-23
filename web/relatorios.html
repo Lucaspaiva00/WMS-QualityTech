@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📊 Relatórios - Paiva Tech</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="vendor2/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="css2/sb-admin-2.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: "Poppins", sans-serif;
+            background-color: #f4f5fa;
+        }
+
+        .bg-gradient-dark {
+            background: linear-gradient(180deg, #0d1117 0%, #1f2937 100%);
+        }
+
+        .sidebar-dark .nav-item .nav-link span {
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .sidebar-dark .nav-item .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-item.active .nav-link {
+            background-color: #e50914 !important;
+            border-radius: 8px;
+        }
+
+        h1 {
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            background: #fff;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        table th {
+            background-color: #111827;
+            color: #fff;
+        }
+
+        table td {
+            vertical-align: middle;
+        }
+
+        .btn-primary {
+            background-color: #e50914;
+            border: none;
+            font-weight: 600;
+        }
+
+        .btn-primary:hover {
+            background-color: #b20710;
+        }
+
+        .btn-success {
+            background-color: #16a34a;
+            border: none;
+            font-weight: 600;
+        }
+
+        .btn-success:hover {
+            background-color: #15803d;
+        }
+
+        .nav-tabs .nav-link {
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .nav-tabs .nav-link.active {
+            color: #e50914;
+        }
+
+        .badge-soft {
+            background: #f3f4f6;
+            border: 1px solid #e5e7eb;
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-weight: 600;
+            color: #374151;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <div class="sidebar-brand-text mx-3">
+                    <img src="img/logooficial.png" style="height:55px;object-fit:contain" alt="Logo">
+                </div>
+            </a>
+
+            <hr class="sidebar-divider my-0">
+            <li class="nav-item"><a class="nav-link" href="index.html">
+                    <i class="fas fa-fw fa-tachometer-alt"></i><span>Dashboard</span></a>
+            </li>
+
+            <hr class="sidebar-divider">
+            <div class="sidebar-heading">Gestão</div>
+
+            <li class="nav-item"><a class="nav-link" href="material.html">
+                    <i class="fas fa-boxes"></i><span>Entrada de Material</span></a>
+            </li>
+
+            <li class="nav-item"><a class="nav-link" href="saida.html">
+                    <i class="fas fa-clipboard-list"></i><span>Relatório de Embarque</span></a>
+            </li>
+
+            <!-- ✅ NOVO MENU -->
+            <li class="nav-item active"><a class="nav-link" href="relatorios.html">
+                    <i class="fas fa-file-excel"></i><span>Relatórios</span></a>
+            </li>
+
+
+            <li class="nav-item"><a class="nav-link" href="ordemembarque.html">
+                    <i class="fas fa-truck-loading"></i><span>Ordem de Embarque</span></a>
+            </li>
+
+            <li class="nav-item"><a class="nav-link" href="posicao.html">
+                    <i class="fas fa-map-marked-alt"></i><span>Posições</span></a>
+            </li>
+
+            <hr class="sidebar-divider">
+            <div class="sidebar-heading">Cadastros</div>
+
+            <li class="nav-item"><a class="nav-link" href="produto.html">
+                    <i class="fas fa-cube"></i><span>Produtos</span></a>
+            </li>
+
+            <li class="nav-item"><a class="nav-link" href="cliente.html">
+                    <i class="fas fa-user-tie"></i><span>Clientes</span></a>
+            </li>
+
+            <li class="nav-item"><a class="nav-link" href="minuta.html">
+                    <i class="fas fa-file-invoice"></i><span>Minutas</span></a>
+            </li>
+
+            <hr class="sidebar-divider d-none d-md-block">
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+        </ul>
+
+        <!-- Conteúdo -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow-sm">
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3"><i
+                            class="fa fa-bars"></i></button>
+
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="https://app.contaazul.com/#/ca/visao-geral" target="_blank">
+                                <img src="img/contaazul.jpeg" alt="Conta Azul" style="height:40px; margin-right:15px;">
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="https://www.hodiebooking.com.br/ingredion/login.php?src=ver_2&msg="
+                                target="_blank">
+                                <img src="img/hodiebooking.jpeg" alt="HodieBooking"
+                                    style="height:40px; margin-right:15px;">
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown">
+                                <span class="mr-2 d-none d-lg-inline text-gray-900 font-weight-bold">Opções</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="login.html">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>Sair
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- Conteúdo Principal -->
+                <div class="container-fluid">
+                    <h1 class="h3 mb-4 text-gray-800">
+                        <i class="fas fa-file-excel text-success"></i> Relatórios de Estoque
+                        <span class="ml-2 badge-soft">Padrão Excel</span>
+                    </h1>
+
+                    <div class="card p-4 shadow">
+                        <!-- Tabs -->
+                        <ul class="nav nav-tabs" id="tabsRel" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="tab-saldo" data-toggle="tab" href="#saldo" role="tab">
+                                    Saldo Atual
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="tab-mov" data-toggle="tab" href="#mov" role="tab">
+                                    Movimentação por Período
+                                </a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content pt-4">
+
+                            <!-- ✅ SALDO ATUAL -->
+                            <div class="tab-pane fade show active" id="saldo" role="tabpanel">
+                                <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+                                    <div class="text-muted">
+                                        Relatório de <b>Saldo Atual</b> (PN, Lote, Val, Posição, NF, Saldo)
+                                    </div>
+
+                                    <div class="mt-2 mt-md-0">
+                                        <button class="btn btn-primary mr-2" onclick="gerarSaldo()">
+                                            <i class="fas fa-sync-alt"></i> Gerar
+                                        </button>
+                                        <button class="btn btn-success" onclick="exportarSaldo()">
+                                            <i class="fas fa-file-excel"></i> Exportar XLSX
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-hover">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th>PN</th>
+                                                <th>Lote</th>
+                                                <th>Val</th>
+                                                <th>Posição</th>
+                                                <th>NF</th>
+                                                <th>Saldo do Produto</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tbSaldo">
+                                            <tr>
+                                                <td colspan="6" class="text-muted">Clique em <b>Gerar</b> para carregar.
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- ✅ MOVIMENTAÇÃO -->
+                            <div class="tab-pane fade" id="mov" role="tabpanel">
+                                <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+                                    <div class="text-muted">
+                                        Relatório de <b>Movimentação</b> (Data, Entrada, Saída, Saldo)
+                                    </div>
+
+                                    <div class="mt-2 mt-md-0">
+                                        <button class="btn btn-primary mr-2" onclick="gerarMov()">
+                                            <i class="fas fa-sync-alt"></i> Gerar
+                                        </button>
+                                        <button class="btn btn-success" onclick="exportarMov()">
+                                            <i class="fas fa-file-excel"></i> Exportar XLSX
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="form-row mb-3">
+                                    <div class="form-group col-md-3">
+                                        <label>Data Inicial</label>
+                                        <input type="date" id="dtStart" class="form-control">
+                                    </div>
+
+                                    <div class="form-group col-md-3">
+                                        <label>Data Final</label>
+                                        <input type="date" id="dtEnd" class="form-control">
+                                    </div>
+
+                                    <div class="form-group col-md-6 d-flex align-items-end">
+                                        <div class="text-muted small">
+                                            Informe o período e clique em <b>Gerar</b>.
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-hover">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th>Data</th>
+                                                <th>PN</th>
+                                                <th>Lote</th>
+                                                <th>Val</th>
+                                                <th>Posição</th>
+                                                <th>NF</th>
+                                                <th>Qtde Entrada</th>
+                                                <th>Qtde Saída</th>
+                                                <th>Saldo do Produto</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tbMov">
+                                            <tr>
+                                                <td colspan="9" class="text-muted">Selecione o período e clique em
+                                                    <b>Gerar</b>.
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="alert alert-warning mt-3 mb-0">
+                                    <b>Atenção:</b> para o relatório por período funcionar corretamente, o back-end
+                                    precisa
+                                    ter <b>data/hora</b> das entradas e saídas (createdAt/baixadoAt).
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="vendor2/jquery/jquery.min.js"></script>
+    <script src="vendor2/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="vendor2/jquery-easing/jquery.easing.min.js"></script>
+    <script src="js2/sb-admin-2.min.js"></script>
+
+    <script src="js/scriptrelatorios.js"></script>
+
+    <script>
+        // ✅ padrão do seu sistema: operador no localStorage
+        const operador = JSON.parse(localStorage.getItem("OPERADOR_LOGADO"));
+        if (!operador) {
+            alert("Você precisa fazer login!");
+            window.location.href = "login.html";
+        } else {
+            document.getElementById("nomeOperador").innerText = operador.nome || operador.usuario || "-";
+        }
+
+        function logout() {
+            localStorage.removeItem("OPERADOR_LOGADO");
+            window.location.href = "login.html";
+        }
+    </script>
+</body>
+
+</html>

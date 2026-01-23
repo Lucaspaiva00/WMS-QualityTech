@@ -17,6 +17,9 @@ model material {
   nf_entrada    String
   observacao    String
 
+  // ✅ novo
+  createdAt DateTime @default(now())
+
   operadorId Int?
   operador   operador? @relation(fields: [operadorId], references: [id])
 
@@ -34,6 +37,11 @@ model saida {
   observacao    String?
   quantidade    Int
   status        String  @default("pendente")
+
+  // ✅ novo
+  createdAt DateTime  @default(now())
+  // ✅ opcional (mas recomendado)
+  baixadoAt DateTime?
 
   operadorId Int?
   operador   operador? @relation(fields: [operadorId], references: [id])

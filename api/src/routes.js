@@ -8,6 +8,7 @@ const produtos = require('./controller/ctrproduto')
 const saida = require('./controller/ctrsaida');
 const minuta = require('./controller/ctminuta');
 const operador = require("./controller/controllerOperador");
+const relatorios = require("./routes/relatorios.routes");
 
 routes.get('/', (req, res) => {
     return res.json("Api WMS está funcionando corretamente")
@@ -49,5 +50,5 @@ routes.get('/operadores', operador.listarOperadores);
 routes.post('/operadores', operador.criarOperador);
 routes.post('/login', operador.loginOperador);
 
-
+routes.use("/relatorios", relatorios);
 module.exports = routes
