@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="vendor2/fontawesome-free/css/all.min.css" rel="stylesheet">
     <link href="css2/sb-admin-2.min.css" rel="stylesheet">
+
     <style>
         body {
             font-family: "Poppins", sans-serif;
@@ -29,21 +30,35 @@
             border-radius: 8px
         }
 
-        .card-item {
+        .badge-status {
+            font-size: .8rem
+        }
+
+        .card-premium {
             border: none;
             border-radius: 14px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, .08);
-            transition: .2s;
-            background: #fff
+            background: #fff;
+            overflow: hidden;
         }
 
-        .card-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 18px rgba(0, 0, 0, .12)
+        .table thead th {
+            white-space: nowrap;
+            cursor: pointer;
+            user-select: none;
         }
 
-        .badge-status {
-            font-size: .8rem
+        .th-indicator {
+            margin-left: 6px;
+            font-size: .85rem;
+            opacity: .8;
+        }
+
+        .acao-wrap {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: flex-start;
         }
     </style>
 </head>
@@ -59,45 +74,80 @@
             </a>
 
             <hr class="sidebar-divider my-0">
-            <li class="nav-item"><a class="nav-link" href="index.html"><i
-                        class="fas fa-fw fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+            <li class="nav-item">
+                <a class="nav-link" href="index.html">
+                    <i class="fas fa-fw fa-tachometer-alt"></i><span>Dashboard</span>
+                </a>
+            </li>
 
             <hr class="sidebar-divider">
             <div class="sidebar-heading">Gestão</div>
-            <li class="nav-item"><a class="nav-link" href="material.html"><i class="fas fa-boxes"></i><span>Entrada de
-                        Material</span></a></li>
-            <li class="nav-item"><a class="nav-link" href="saida.html"><i
-                        class="fas fa-clipboard-list"></i><span>Relatório de Embarque</span></a></li>
-            <!-- ✅ NOVO MENU -->
-            <li class="nav-item"><a class="nav-link" href="relatorios.html">
-                    <i class="fas fa-file-excel"></i><span>Relatórios</span></a>
+
+            <li class="nav-item">
+                <a class="nav-link" href="material.html">
+                    <i class="fas fa-boxes"></i><span>Entrada de Material</span>
+                </a>
             </li>
 
-            <li class="nav-item active"><a class="nav-link" href="ordemembarque.html"><i
-                        class="fas fa-truck-loading"></i><span>Ordem de Embarque</span></a></li>
-            <li class="nav-item"><a class="nav-link" href="posicao.html"><i
-                        class="fas fa-map-marked-alt"></i><span>Posições</span></a></li>
+            <li class="nav-item">
+                <a class="nav-link" href="saida.html">
+                    <i class="fas fa-clipboard-list"></i><span>Relatório de Embarque</span>
+                </a>
+            </li>
+
+            <!-- ✅ NOVO MENU -->
+            <li class="nav-item">
+                <a class="nav-link" href="relatorios.html">
+                    <i class="fas fa-file-excel"></i><span>Relatórios</span>
+                </a>
+            </li>
+
+            <li class="nav-item active">
+                <a class="nav-link" href="ordemembarque.html">
+                    <i class="fas fa-truck-loading"></i><span>Ordem de Embarque</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="posicao.html">
+                    <i class="fas fa-map-marked-alt"></i><span>Posições</span>
+                </a>
+            </li>
 
             <hr class="sidebar-divider">
             <div class="sidebar-heading">Cadastros</div>
-            <li class="nav-item"><a class="nav-link" href="produto.html"><i
-                        class="fas fa-cube"></i><span>Produtos</span></a></li>
-            <li class="nav-item"><a class="nav-link" href="cliente.html"><i
-                        class="fas fa-user-tie"></i><span>Clientes</span></a></li>
-            <li class="nav-item"><a class="nav-link" href="minuta.html"><i
-                        class="fas fa-file-invoice"></i><span>Minutas</span></a></li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="produto.html">
+                    <i class="fas fa-cube"></i><span>Produtos</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="cliente.html">
+                    <i class="fas fa-user-tie"></i><span>Clientes</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="minuta.html">
+                    <i class="fas fa-file-invoice"></i><span>Minutas</span>
+                </a>
+            </li>
 
             <hr class="sidebar-divider d-none d-md-block">
-            <div class="text-center d-none d-md-inline"><button class="rounded-circle border-0"
-                    id="sidebarToggle"></button></div>
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
         </ul>
 
         <!-- Content -->
         <div id="content-wrapper" class="d-flex flex-column">
             <div id="content">
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow-sm">
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3"><i
-                            class="fa fa-bars"></i></button>
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
 
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
@@ -126,15 +176,45 @@
                         </li>
                     </ul>
                 </nav>
+
                 <div class="container-fluid">
-                    <h1 class="h3 mb-4 text-gray-800"><i class="fas fa-truck-loading text-primary"></i> Ordem de
-                        Embarque</h1>
+                    <div class="d-flex align-items-center justify-content-between flex-wrap mb-3">
+                        <h1 class="h3 text-gray-800 mb-2">
+                            <i class="fas fa-truck-loading text-primary"></i> Ordem de Embarque
+                        </h1>
 
-                    <div class="row" id="cards-saida">
-                        <!-- Cards renderizados via JS -->
+                        <!-- ✅ Botão exportar (o scriptsaida.js procura #btn-exportar) -->
+                        <button class="btn btn-success btn-sm shadow-sm" id="btn-exportar">
+                            <i class="fas fa-file-excel mr-1"></i> Exportar XLSX
+                        </button>
                     </div>
-                </div>
 
+                    <!-- ✅ Agora existe a tabela que o scriptsaida.js usa -->
+                    <div class="card-premium p-3">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover mb-0" id="tabela-saida">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th data-key="pn_material">PN MATERIAL <span class="th-indicator"></span></th>
+                                        <th data-key="lote">LOTE (FIFO) <span class="th-indicator"></span></th>
+                                        <th data-key="data_validade">DATA VALIDADE <span class="th-indicator"></span>
+                                        </th>
+                                        <th data-key="posicao">POSIÇÃO <span class="th-indicator"></span></th>
+                                        <th data-key="nf_entrada">NF ENTRADA <span class="th-indicator"></span></th>
+                                        <th data-key="observacao">OBSERVAÇÃO <span class="th-indicator"></span></th>
+                                        <th data-key="quantidade">QUANTIDADE <span class="th-indicator"></span></th>
+                                        <th data-key="status">STATUS <span class="th-indicator"></span></th>
+                                        <th style="min-width:180px">AÇÕES</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- preenchido via JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
@@ -146,34 +226,54 @@
             <div class="modal-content border-0 shadow">
                 <div class="modal-header bg-dark text-white">
                     <h5 class="modal-title">Editar Saída</h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <form id="formEditarSaida">
                     <div class="modal-body">
                         <div class="form-row">
-                            <div class="form-group col-md-4"><label>PN Material</label><input type="text"
-                                    name="pn_material" class="form-control" required></div>
-                            <div class="form-group col-md-4"><label>Lote</label><input type="text" name="lote"
-                                    class="form-control" required></div>
-                            <div class="form-group col-md-4"><label>Data Validade</label><input type="date"
-                                    name="data_validade" class="form-control" required></div>
+                            <div class="form-group col-md-4">
+                                <label>PN Material</label>
+                                <input type="text" name="pn_material" class="form-control" required>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Lote</label>
+                                <input type="text" name="lote" class="form-control" required>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Data Validade</label>
+                                <input type="date" name="data_validade" class="form-control" required>
+                            </div>
                         </div>
+
                         <div class="form-row">
-                            <div class="form-group col-md-4"><label>Posição</label><input type="text" name="posicao"
-                                    class="form-control" required></div>
-                            <div class="form-group col-md-4"><label>NF Entrada</label><input type="text"
-                                    name="nf_entrada" class="form-control" required></div>
-                            <div class="form-group col-md-4"><label>Quantidade</label><input type="number"
-                                    name="quantidade" class="form-control" required></div>
+                            <div class="form-group col-md-4">
+                                <label>Posição</label>
+                                <input type="text" name="posicao" class="form-control" required>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>NF Entrada</label>
+                                <input type="text" name="nf_entrada" class="form-control" required>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Quantidade</label>
+                                <input type="number" name="quantidade" class="form-control" required>
+                            </div>
                         </div>
+
                         <div class="form-row">
-                            <div class="form-group col-md-6"><label>Observação</label><input type="text"
-                                    name="observacao" class="form-control"></div>
-                            <div class="form-group col-md-6"><label>Status</label><input type="text" name="status"
-                                    class="form-control" required></div>
+                            <div class="form-group col-md-6">
+                                <label>Observação</label>
+                                <input type="text" name="observacao" class="form-control">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Status</label>
+                                <input type="text" name="status" class="form-control" required>
+                            </div>
                         </div>
                     </div>
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                         <button type="submit" class="btn btn-primary">Salvar Alterações</button>
@@ -183,11 +283,15 @@
         </div>
     </div>
 
-    <script src="js/scriptsaida.js"></script>
+    <!-- ✅ Scripts (ordem correta) -->
     <script src="vendor2/jquery/jquery.min.js"></script>
     <script src="vendor2/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="vendor2/jquery-easing/jquery.easing.min.js"></script>
     <script src="js2/sb-admin-2.min.js"></script>
+
+    <!-- ✅ Seu script por último e com defer -->
+    <script src="js/scriptsaida.js" defer></script>
+
 </body>
 
 </html>
